@@ -17,6 +17,8 @@ public class PlayerMovement : MonoBehaviour
     public float slideDeceleration;
     public float FOVChangeSpeed;
     public float coyoteTime;
+    public float wallRunTiltAmount;
+    public float wallRunTiltSpeed;
 
     [HideInInspector]
     public float lastWallContact;
@@ -36,6 +38,7 @@ public class PlayerMovement : MonoBehaviour
     float lastSlide;
     float currentSpeed;
     float xRot;
+    float wallRunTilt;
 
     int jumpsLeft;
 
@@ -82,7 +85,6 @@ public class PlayerMovement : MonoBehaviour
 
         xRot = Mathf.Clamp(xRot, -90.0f, 90.0f);
 
-        playerCamera.transform.localEulerAngles = new Vector3(-xRot, playerCamera.transform.localEulerAngles.y, playerCamera.transform.localEulerAngles.z);
         transform.Rotate(new Vector3(0, Input.GetAxisRaw("Mouse X") * sensitivity * Time.deltaTime * 100, 0));
 
         // SPEED CAP
@@ -111,12 +113,25 @@ public class PlayerMovement : MonoBehaviour
             wallDir = Vector3.zero;
         }
 
+        // WALL RUNNING
         if (Time.time - lastWallContact < coyoteTime && !isGrounded){
             isWallRunning = true;
+
             jumpsLeft = extraJumpCount;
+
+            if (wallDir == Vector3.right){
+                wallRunTilt = Mathf.Lerp(wallRunTilt, wallRunTiltAmount, Time.deltaTime * wallRunTiltSpeed);
+            }
+            else if (wallDir == Vector3.left){
+                wallRunTilt = Mathf.Lerp(wallRunTilt, -wallRunTiltAmount, Time.deltaTime * wallRunTiltSpeed);
+            }
         } else {
+            wallRunTilt = Mathf.Lerp(wallRunTilt, 0, Time.deltaTime * wallRunTiltSpeed);
+
             isWallRunning = false;
         }
+
+        playerCamera.transform.localRotation = Quaternion.Euler(-xRot, 0, wallRunTilt);
 
         // CROUCHING
         if (Input.GetButtonDown("Crouch")) {
