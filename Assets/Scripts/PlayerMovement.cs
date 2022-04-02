@@ -27,6 +27,8 @@ public class PlayerMovement : MonoBehaviour
 
     bool isGrounded;
     bool isSliding;
+    bool isCrouching;
+    bool isSprinting;
 
     [HideInInspector]
     public float currentSpeed;
@@ -76,6 +78,46 @@ public class PlayerMovement : MonoBehaviour
             currentSpeed = maxSpeed;
         }
 
+        // SPRINTING
+        if (Input.GetButtonDown("Sprint") && (currentSpeed < movementSpeed || isGrounded) && !isSliding){
+            isSprinting = true;
+        }
+
+        // STOP SPRINTING
+        if (Input.GetButtonUp("Sprint")){
+            isSprinting = false;
+        }
+
+        // CROUCHING
+        if (Input.GetButtonDown("Crouch")){
+
+            // SLIDING
+            if (isSprinting)
+            {
+                isSliding = true;
+                lastSlide = Time.time;
+
+                currentSpeed += slideSpeedBoost;
+            }
+
+            isCrouching = true;
+
+            // MOVE PLAYER DOWN
+            gameObject.transform.localScale = new Vector3(1, 0.5f, 1);
+            gameObject.transform.Translate(new Vector3(0, -0.5f, 0));
+        }
+
+        // STOP CROUCHING
+        if (Input.GetButtonUp("Crouch")){
+            isSliding = false;
+
+            isCrouching = false;
+
+            // MOVE PLAYER UP
+            gameObject.transform.Translate(new Vector3(0, 0.5f, 0));
+            gameObject.transform.localScale = new Vector3(1, 1f, 1);
+        }
+
         // MOVEMENT
         if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
         {
@@ -83,62 +125,31 @@ public class PlayerMovement : MonoBehaviour
 
             currentSpeed += Mathf.Abs(Input.GetAxisRaw("Mouse X") * sensitivity * Time.deltaTime * strafeAcceleration);
 
-            // SPRINTING
-            if ((currentSpeed < movementSpeed || isGrounded) && Input.GetButton("Sprint") && !isSliding)
+            // SPRINTING SPEED
+            if (isSprinting)
             {
-                playerCamera.transform.localPosition = new Vector3(0, 1f, 0);
-
                 currentSpeed = Mathf.Lerp(currentSpeed, sprintSpeed, t += Time.deltaTime * acceleration);
-
-                // START SLIDE
-                if (Input.GetButtonDown("Crouch") && isGrounded)
-                {
-                    isSliding = true;
-                    lastSlide = Time.time;
-
-                    currentSpeed += slideSpeedBoost;
-                }
             }
 
-            // CROUCHING
-            else if (Input.GetButton("Crouch"))
+            // CROUCHING SPEED
+            else if (isCrouching && isGrounded)
             {
-                // SLIDING
+                // SLIDING SPEED
                 if (isSliding)
-                {       
-                    playerCamera.transform.localPosition = new Vector3(0, 0.5f, 0);
-
-                    if (isGrounded)
-                    {
-                        currentSpeed = Mathf.Max(currentSpeed - slideSpeedDecrease, 0);
-                    }
+                {
+                    currentSpeed = Mathf.Max(currentSpeed - slideSpeedDecrease, 0);
                 }
 
-                else if (isGrounded)
+                else
                 {
-                    playerCamera.transform.localPosition = new Vector3(0, 0.5f, 0);
-
                     currentSpeed = Mathf.Lerp(currentSpeed, crouchSpeed, t += Time.deltaTime * acceleration);
                 }
-
             }
 
-            // WALKING
+            // WALKING SPEED
             else if ((currentSpeed < movementSpeed || isGrounded))
             {
-                isSliding = false;
-
-                playerCamera.transform.localPosition = new Vector3(0, 1f, 0);
-
                 currentSpeed = Mathf.Lerp(currentSpeed, movementSpeed, t += Time.deltaTime * acceleration);
-            }
-
-            // FALLING
-            else 
-            {
-                playerCamera.transform.localPosition = new Vector3(0, 1f, 0);
-
-                isSliding = false;
             }
 
             // MOVEMENT CAP
@@ -163,10 +174,8 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        movement = dir.normalized * currentSpeed / 20;
-
         // JUMPING
-        if (Input.GetButtonDown("Jump") && (Time.time - lastJump > jumpDelay))
+        if (Input.GetButtonDown("Jump") && Time.time - lastJump > jumpDelay)
         {
             if (jumpCount > 0)
             {
@@ -176,15 +185,12 @@ public class PlayerMovement : MonoBehaviour
 
                 rigid.velocity = Vector3.zero;
                 rigid.AddForce(Vector3.up * jumpHeight, ForceMode.Impulse);
-
-                if (jumpSound)
-                {
-                    jumpSound.Play();
-                }
             }
 
             lastJump = Time.time;
         }
+
+        movement = dir.normalized * currentSpeed / 20;
     }
 
     void FixedUpdate()
