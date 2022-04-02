@@ -10,13 +10,19 @@ public class PlayerMovement : MonoBehaviour
     public float acceleration;
     public float jumpHeight;
     public float maxSpeed;
-    public float strafeAcceleration;
+    public float airStrafeAcceleration;
     public float sensitivity;
     public float jumpDelay;
     public float slideSpeedBoost;
     public float slideDeceleration;
     public float FOVChangeSpeed;
     public float coyoteTime;
+
+    [HideInInspector]
+    public float lastWallContact;
+
+    [HideInInspector]
+    public float lastGroundContact;
 
     public int extraJumpCount;
     public int defaultFOV;
@@ -40,7 +46,11 @@ public class PlayerMovement : MonoBehaviour
     bool isWallRunning;
 
     Vector3 dir;
+    Vector3 desiredDir;
     Vector3 movement;
+    Vector3 wallDir;
+
+    int wallLayerMask;
 
     Camera playerCamera;
 
@@ -49,6 +59,8 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         isGrounded = true;
+
+        wallLayerMask = LayerMask.GetMask("Wall");
 
         playerCamera = Camera.main;
 
@@ -76,6 +88,34 @@ public class PlayerMovement : MonoBehaviour
         // SPEED CAP
         if (currentSpeed > maxSpeed) {
             currentSpeed = maxSpeed;
+        }
+
+        // GROUND CHECK
+        if (Time.time - lastGroundContact < coyoteTime){
+            isGrounded = true;
+            jumpsLeft = extraJumpCount;
+        } else {
+            isGrounded = false;
+        }
+
+        // WALL CHECK
+        if (Physics.Raycast(transform.position, transform.right, 0.6f, wallLayerMask)){
+            wallDir = Vector3.right;
+
+            lastWallContact = Time.time;
+        } else if (Physics.Raycast(transform.position, -transform.right, 0.6f, wallLayerMask)) {
+            wallDir = Vector3.left;
+
+            lastWallContact = Time.time;
+        } else {
+            wallDir = Vector3.zero;
+        }
+
+        if (Time.time - lastWallContact < coyoteTime && !isGrounded){
+            isWallRunning = true;
+            jumpsLeft = extraJumpCount;
+        } else {
+            isWallRunning = false;
         }
 
         // CROUCHING
@@ -128,7 +168,7 @@ public class PlayerMovement : MonoBehaviour
 
             // AIR STRAFING
             if (!isGrounded) {
-                currentSpeed += Mathf.Abs(Input.GetAxisRaw("Mouse X") * sensitivity * Time.deltaTime * strafeAcceleration);
+                currentSpeed += Mathf.Abs(Input.GetAxisRaw("Mouse X") * sensitivity * Time.deltaTime * airStrafeAcceleration);
             }
 
             // SPRINTING
@@ -149,8 +189,6 @@ public class PlayerMovement : MonoBehaviour
                 desiredFOV = defaultFOV;
                 desiredAcceleration = acceleration;
             }
-
-            dir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
         }
 
         // STOPPING
@@ -162,9 +200,16 @@ public class PlayerMovement : MonoBehaviour
 
         // JUMPING
         if (Input.GetButtonDown("Jump") && Time.time - lastJump > jumpDelay) {
-            if (isWallRunning || isGrounded)
+            if (isGrounded)
             {
                 isGrounded = false;
+
+                rigid.velocity = Vector3.zero;
+                rigid.AddForce(Vector3.up * jumpHeight, ForceMode.Impulse);
+            }
+
+            else if (isWallRunning)
+            {
                 isWallRunning = false;
 
                 rigid.velocity = Vector3.zero;
@@ -188,49 +233,13 @@ public class PlayerMovement : MonoBehaviour
         currentSpeed = Mathf.Lerp(currentSpeed, desiredSpeed, Time.deltaTime * desiredAcceleration);
         playerCamera.fieldOfView = Mathf.Lerp(playerCamera.fieldOfView, desiredFOV, Time.deltaTime * FOVChangeSpeed);
 
-        movement = dir.normalized * currentSpeed / 20;
+        desiredDir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
+        dir = Vector3.Lerp(dir, desiredDir, Time.deltaTime * acceleration);
+
+        movement = dir * currentSpeed / 20;
     }
 
     void FixedUpdate() {
         rigid.MovePosition(rigid.position + transform.TransformDirection(movement) * Time.deltaTime);
-    }
-
-    void OnCollisionEnter(Collision coll) {
-        if (coll.gameObject.CompareTag("Ground"))
-        {
-            isGrounded = true;
-
-            jumpsLeft = extraJumpCount;
-        }
-
-        else if (coll.gameObject.CompareTag("Wall"))
-        {
-            if (!isGrounded)
-            {
-                isWallRunning = true;
-            }
-
-            jumpsLeft = extraJumpCount;
-        }
-    }
-
-    void OnCollisionExit(Collision coll) {
-        if (coll.gameObject.CompareTag("Ground"))
-        {
-            Invoke("NotGrounded", coyoteTime);
-        }
-
-        else if (coll.gameObject.CompareTag("Wall"))
-        {
-            Invoke("NotWallRunning", coyoteTime);
-        }
-    }
-
-    void NotGrounded(){
-        isGrounded = false;
-    }
-
-    void NotWallRunning(){
-        isWallRunning = false;
     }
 }
