@@ -16,8 +16,9 @@ public class PlayerMovement : MonoBehaviour
     public float slideSpeedBoost;
     public float slideDeceleration;
     public float FOVChangeSpeed;
+    public float coyoteTime;
 
-    public int maxJumpCount;
+    public int extraJumpCount;
     public int defaultFOV;
     public int sprintingFOVIncrease;
     public int slidingFOVIncrease;
@@ -30,12 +31,13 @@ public class PlayerMovement : MonoBehaviour
     float currentSpeed;
     float xRot;
 
-    int jumpCount;
+    int jumpsLeft;
 
     bool isGrounded;
     bool isSliding;
     bool isCrouching;
     bool isSprinting;
+    bool isWallRunning;
 
     Vector3 dir;
     Vector3 movement;
@@ -116,6 +118,11 @@ public class PlayerMovement : MonoBehaviour
             gameObject.transform.localScale = new Vector3(1, 1f, 1);
         }
 
+        // STOP SPRINTING
+        if (Input.GetButtonUp("Sprint")) {
+            isSprinting = false;
+        }
+
         // MOVEMENT
         if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0) {
 
@@ -133,11 +140,6 @@ public class PlayerMovement : MonoBehaviour
                     desiredFOV = defaultFOV + sprintingFOVIncrease;
                     desiredAcceleration = acceleration;
                 }
-            }
-
-            // STOP SPRINTING
-            if (Input.GetButtonUp("Sprint")) {
-                isSprinting = false;
             }
 
             // WALKING
@@ -160,11 +162,20 @@ public class PlayerMovement : MonoBehaviour
 
         // JUMPING
         if (Input.GetButtonDown("Jump") && Time.time - lastJump > jumpDelay) {
-            if (jumpCount > 0)
+            if (isWallRunning || isGrounded)
             {
                 isGrounded = false;
+                isWallRunning = false;
 
-                jumpCount -= 1;
+                rigid.velocity = Vector3.zero;
+                rigid.AddForce(Vector3.up * jumpHeight, ForceMode.Impulse);
+            }
+
+            else if (jumpsLeft > 0){
+                isGrounded = false;
+                isWallRunning = false;
+
+                jumpsLeft -= 1;
 
                 rigid.velocity = Vector3.zero;
                 rigid.AddForce(Vector3.up * jumpHeight, ForceMode.Impulse);
@@ -184,9 +195,42 @@ public class PlayerMovement : MonoBehaviour
         rigid.MovePosition(rigid.position + transform.TransformDirection(movement) * Time.deltaTime);
     }
 
-    void OnCollisionEnter(Collision other) {
-        isGrounded = true;
+    void OnCollisionEnter(Collision coll) {
+        if (coll.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = true;
 
-        jumpCount = maxJumpCount;
+            jumpsLeft = extraJumpCount;
+        }
+
+        else if (coll.gameObject.CompareTag("Wall"))
+        {
+            if (!isGrounded)
+            {
+                isWallRunning = true;
+            }
+
+            jumpsLeft = extraJumpCount;
+        }
+    }
+
+    void OnCollisionExit(Collision coll) {
+        if (coll.gameObject.CompareTag("Ground"))
+        {
+            Invoke("NotGrounded", coyoteTime);
+        }
+
+        else if (coll.gameObject.CompareTag("Wall"))
+        {
+            Invoke("NotWallRunning", coyoteTime);
+        }
+    }
+
+    void NotGrounded(){
+        isGrounded = false;
+    }
+
+    void NotWallRunning(){
+        isWallRunning = false;
     }
 }
