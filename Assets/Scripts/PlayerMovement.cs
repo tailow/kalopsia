@@ -14,14 +14,21 @@ public class PlayerMovement : MonoBehaviour
     public float sensitivity;
     public float jumpDelay;
     public float slideSpeedBoost;
-    public float slideSpeedDecrease;
+    public float slideDeceleration;
+    public float FOVChangeSpeed;
 
     public int maxJumpCount;
+    public int defaultFOV;
+    public int sprintingFOVIncrease;
+    public int slidingFOVIncrease;
 
-    public AudioSource jumpSound;
-
+    float desiredSpeed;
+    float desiredFOV;
+    float desiredAcceleration;
     float lastJump;
     float lastSlide;
+    float currentSpeed;
+    float xRot;
 
     int jumpCount;
 
@@ -29,12 +36,6 @@ public class PlayerMovement : MonoBehaviour
     bool isSliding;
     bool isCrouching;
     bool isSprinting;
-
-    [HideInInspector]
-    public float currentSpeed;
-
-    float xRot;
-    float t;
 
     Vector3 dir;
     Vector3 movement;
@@ -51,13 +52,11 @@ public class PlayerMovement : MonoBehaviour
 
         rigid = gameObject.GetComponent<Rigidbody>();
 
-        if (PlayerPrefs.GetInt("sensitivity") == 0)
-        {
+        if (PlayerPrefs.GetInt("sensitivity") == 0) {
             sensitivity = 10;
         }
 
-        else
-        {
+        else {
             sensitivity = PlayerPrefs.GetInt("sensitivity");
         }
     }
@@ -73,34 +72,33 @@ public class PlayerMovement : MonoBehaviour
         transform.Rotate(new Vector3(0, Input.GetAxisRaw("Mouse X") * sensitivity * Time.deltaTime * 100, 0));
 
         // SPEED CAP
-        if (currentSpeed > maxSpeed)
-        {
+        if (currentSpeed > maxSpeed) {
             currentSpeed = maxSpeed;
         }
 
-        // SPRINTING
-        if (Input.GetButtonDown("Sprint") && (currentSpeed < movementSpeed || isGrounded) && !isSliding){
-            isSprinting = true;
-        }
-
-        // STOP SPRINTING
-        if (Input.GetButtonUp("Sprint")){
-            isSprinting = false;
-        }
-
         // CROUCHING
-        if (Input.GetButtonDown("Crouch")){
+        if (Input.GetButtonDown("Crouch")) {
 
             // SLIDING
-            if (isSprinting)
-            {
+            if (isSprinting) {
                 isSliding = true;
+
                 lastSlide = Time.time;
 
                 currentSpeed += slideSpeedBoost;
+
+                desiredSpeed = 0;
+                desiredAcceleration = slideDeceleration;
+                desiredFOV = defaultFOV + slidingFOVIncrease;
             }
 
-            isCrouching = true;
+            else {
+                isCrouching = true;
+
+                desiredSpeed = crouchSpeed;
+                desiredFOV = defaultFOV;
+                desiredAcceleration = acceleration;
+            }
 
             // MOVE PLAYER DOWN
             gameObject.transform.localScale = new Vector3(1, 0.5f, 1);
@@ -108,7 +106,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // STOP CROUCHING
-        if (Input.GetButtonUp("Crouch")){
+        if (Input.GetButtonUp("Crouch")) {
             isSliding = false;
 
             isCrouching = false;
@@ -119,64 +117,49 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // MOVEMENT
-        if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
-        {
-            t = 0f;
+        if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0) {
 
-            currentSpeed += Mathf.Abs(Input.GetAxisRaw("Mouse X") * sensitivity * Time.deltaTime * strafeAcceleration);
-
-            // SPRINTING SPEED
-            if (isSprinting)
-            {
-                currentSpeed = Mathf.Lerp(currentSpeed, sprintSpeed, t += Time.deltaTime * acceleration);
+            // AIR STRAFING
+            if (!isGrounded) {
+                currentSpeed += Mathf.Abs(Input.GetAxisRaw("Mouse X") * sensitivity * Time.deltaTime * strafeAcceleration);
             }
 
-            // CROUCHING SPEED
-            else if (isCrouching && isGrounded)
-            {
-                // SLIDING SPEED
-                if (isSliding)
-                {
-                    currentSpeed = Mathf.Max(currentSpeed - slideSpeedDecrease, 0);
-                }
+            // SPRINTING
+            if (Input.GetButton("Sprint") && Input.GetAxisRaw("Vertical") > 0 && (currentSpeed < sprintSpeed || isGrounded) && !isSliding){
+                isSprinting = true;
 
-                else
-                {
-                    currentSpeed = Mathf.Lerp(currentSpeed, crouchSpeed, t += Time.deltaTime * acceleration);
+                if (!isSliding) {
+                    desiredSpeed = sprintSpeed;
+                    desiredFOV = defaultFOV + sprintingFOVIncrease;
+                    desiredAcceleration = acceleration;
                 }
             }
 
-            // WALKING SPEED
-            else if ((currentSpeed < movementSpeed || isGrounded))
-            {
-                currentSpeed = Mathf.Lerp(currentSpeed, movementSpeed, t += Time.deltaTime * acceleration);
+            // STOP SPRINTING
+            if (Input.GetButtonUp("Sprint")) {
+                isSprinting = false;
             }
 
-            // MOVEMENT CAP
-            if (Mathf.Abs(currentSpeed - movementSpeed) < 0.01f)
+            // WALKING
+            if (!isSprinting && !isCrouching && !isSliding && (currentSpeed < movementSpeed || isGrounded))
             {
-                currentSpeed = movementSpeed;
+                desiredSpeed = movementSpeed;
+                desiredFOV = defaultFOV;
+                desiredAcceleration = acceleration;
             }
 
             dir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
         }
 
         // STOPPING
-        else
-        {
-            t = 0f;
-
-            currentSpeed = Mathf.Lerp(currentSpeed, 0, t += Time.deltaTime * acceleration);
-
-            if (currentSpeed < 0.01f)
-            {
-                currentSpeed = 0f;
-            }
+        else {
+            desiredSpeed = 0;
+            desiredFOV = defaultFOV;
+            desiredAcceleration = acceleration;
         }
 
         // JUMPING
-        if (Input.GetButtonDown("Jump") && Time.time - lastJump > jumpDelay)
-        {
+        if (Input.GetButtonDown("Jump") && Time.time - lastJump > jumpDelay) {
             if (jumpCount > 0)
             {
                 isGrounded = false;
@@ -190,11 +173,14 @@ public class PlayerMovement : MonoBehaviour
             lastJump = Time.time;
         }
 
+        // SPEED AND FOV CALCULATION
+        currentSpeed = Mathf.Lerp(currentSpeed, desiredSpeed, Time.deltaTime * desiredAcceleration);
+        playerCamera.fieldOfView = Mathf.Lerp(playerCamera.fieldOfView, desiredFOV, Time.deltaTime * FOVChangeSpeed);
+
         movement = dir.normalized * currentSpeed / 20;
     }
 
-    void FixedUpdate()
-    {
+    void FixedUpdate() {
         rigid.MovePosition(rigid.position + transform.TransformDirection(movement) * Time.deltaTime);
     }
 
