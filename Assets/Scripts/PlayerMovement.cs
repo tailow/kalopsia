@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public float movementSpeed;
+    public float sprintSpeed;
     public float crouchSpeed;
     public float acceleration;
     public float jumpHeight;
@@ -13,14 +14,18 @@ public class PlayerMovement : MonoBehaviour
     public float sensitivity;
     public float jumpDelay;
 
+    public int maxJumpCount;
+
     public bool isGrounded;
 
     public AudioSource jumpSound;
 
     float lastJump;
 
+    int jumpCount;
+
     [HideInInspector]
-    public float speed;
+    public float currentSpeed;
 
     float xRot;
     float t;
@@ -62,9 +67,9 @@ public class PlayerMovement : MonoBehaviour
         transform.Rotate(new Vector3(0, Input.GetAxisRaw("Mouse X") * sensitivity * Time.deltaTime * 100, 0));
 
         // SPEED CAP
-        if (speed > maxSpeed)
+        if (currentSpeed > maxSpeed)
         {
-            speed = maxSpeed;
+            currentSpeed = maxSpeed;
         }
 
         // MOVEMENT
@@ -72,72 +77,86 @@ public class PlayerMovement : MonoBehaviour
         {
             t = 0f;
 
-            speed += Mathf.Abs(Input.GetAxisRaw("Mouse X") * sensitivity * Time.deltaTime * strafeAcceleration);
+            currentSpeed += Mathf.Abs(Input.GetAxisRaw("Mouse X") * sensitivity * Time.deltaTime * strafeAcceleration);
 
-            if ((speed < movementSpeed || isGrounded) && !Input.GetButton("Crouch"))
+            // SPRINTING
+            if ((currentSpeed < movementSpeed || isGrounded) && Input.GetButton("Sprint"))
             {
-                speed = Mathf.Lerp(speed, movementSpeed, t += Time.deltaTime * acceleration);
+                playerCamera.transform.localPosition = new Vector3(0, 1f, 0);
+
+                currentSpeed = Mathf.Lerp(currentSpeed, sprintSpeed, t += Time.deltaTime * acceleration);
             }
 
             // CROUCHING
-            else if ((speed < movementSpeed || isGrounded) && Input.GetButton("Crouch"))
+            else if (isGrounded && Input.GetButton("Crouch") && !Input.GetButton("Sprint"))
             {
-                speed = Mathf.Lerp(speed, crouchSpeed, t += Time.deltaTime * acceleration);
+                playerCamera.transform.localPosition = new Vector3(0, 0.8f, 0);
+
+                currentSpeed = Mathf.Lerp(currentSpeed, crouchSpeed, t += Time.deltaTime * acceleration);
             }
 
-            if (Mathf.Abs(speed - movementSpeed) < 0.01f)
+            // WALKING
+            else if ((currentSpeed < movementSpeed || isGrounded))
             {
-                speed = movementSpeed;
+                playerCamera.transform.localPosition = new Vector3(0, 1f, 0);
+
+                currentSpeed = Mathf.Lerp(currentSpeed, movementSpeed, t += Time.deltaTime * acceleration);
+            }
+
+            // MOVEMENT CAP
+            if (Mathf.Abs(currentSpeed - movementSpeed) < 0.01f)
+            {
+                currentSpeed = movementSpeed;
             }
 
             dir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
         }
 
+        // STOPPING
         else
         {
             t = 0f;
 
-            speed = Mathf.Lerp(speed, 0, t += Time.deltaTime * acceleration);
+            currentSpeed = Mathf.Lerp(currentSpeed, 0, t += Time.deltaTime * acceleration);
 
-            if (speed < 0.01f)
+            if (currentSpeed < 0.01f)
             {
-                speed = 0f;
+                currentSpeed = 0f;
             }
         }
 
-        movement = dir.normalized * speed / 20;
+        movement = dir.normalized * currentSpeed / 20;
 
         // JUMPING
         if (Input.GetButtonDown("Jump") && (Time.time - lastJump > jumpDelay))
         {
-            if (isGrounded)
+            if (jumpCount > 0)
             {
                 isGrounded = false;
+
+                jumpCount -= 1;
 
                 rigid.velocity = Vector3.zero;
                 rigid.AddForce(Vector3.up * jumpHeight, ForceMode.Impulse);
 
                 if (jumpSound)
+                {
                     jumpSound.Play();
+                }
             }
 
             lastJump = Time.time;
-        }
-
-        // CROUCHING
-        if (Input.GetButton("Crouch"))
-        {
-            playerCamera.transform.localPosition = new Vector3(0, 0.9f, 0);
-        }
-
-        else
-        {
-            playerCamera.transform.localPosition = new Vector3(0, 1f, 0);
         }
     }
 
     void FixedUpdate()
     {
         rigid.MovePosition(rigid.position + transform.TransformDirection(movement) * Time.deltaTime);
+    }
+
+    void OnCollisionEnter(Collision other) {
+        isGrounded = true;
+
+        jumpCount = maxJumpCount;
     }
 }
