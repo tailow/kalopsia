@@ -14,34 +14,29 @@ public class HammerMan : MonoBehaviour
     public float timeStart;
     public float timeNow;
 
-    public Animator animator;
-
     void Start()
     {
         timeStart = Time.time;
         player = GameObject.FindGameObjectWithTag("Player");
-        animator = GetComponent<Animator>();
     }
 
     void Update()
     {
+        Vector3 p1 = transform.position, p2 = player.transform.position;
+
         timeNow = Time.time;
-        transform.LookAt(player.transform);
+        transform.LookAt(p2, Vector3.up);
 
         if (windupTime > Mathf.Abs(timeStart - timeNow)) { return; }
 
-        float d = Vector3.Distance(transform.position, player.transform.position);
+        float d = Vector3.Distance(p1, p2);
         Debug.Log(d);
 
         if (d > 2.5f)
         {
             //look at player and move towards him
-            transform.position += transform.forward * ms * Time.deltaTime;
-        }
-        else
-        {
-            // play animation attack
-            animator.SetBool("attack", true);
+            transform.position = Vector3.MoveTowards( p1, p2, ms * Time.deltaTime);
+            //transform.position += transform.forward * ms * Time.deltaTime;
         }
     }
 }
