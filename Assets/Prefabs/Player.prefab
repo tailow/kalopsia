@@ -186,6 +186,7 @@ GameObject:
   - component: {fileID: 1708157457584769907}
   - component: {fileID: 1708157457584769906}
   - component: {fileID: 1708157457584769908}
+  - component: {fileID: 4879364600335601415}
   - component: {fileID: 1708157457584769905}
   - component: {fileID: 1708157457584769918}
   m_Layer: 0
@@ -280,16 +281,33 @@ MonoBehaviour:
   acceleration: 8
   jumpHeight: 5
   maxSpeed: 1000
-  strafeAcceleration: 5
+  airStrafeAcceleration: 0
   sensitivity: 5
   jumpDelay: 0.05
   slideSpeedBoost: 200
   slideDeceleration: 1
   FOVChangeSpeed: 8
-  maxJumpCount: 2
+  coyoteTime: 0
+  wallRunTiltAmount: 0
+  wallRunTiltSpeed: 0
+  lastWallContact: 0
+  lastGroundContact: 0
+  extraJumpCount: 0
   defaultFOV: 90
   sprintingFOVIncrease: 10
   slidingFOVIncrease: 20
+--- !u!114 &4879364600335601415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1708157457584769911}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61e28327239d93f44a1f6f378a8e2615, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!54 &1708157457584769905
 Rigidbody:
   m_ObjectHideFlags: 0
