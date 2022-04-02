@@ -7,7 +7,7 @@ public class HammerMan : MonoBehaviour
 {
     // Start is called before the first frame update
 
-    public float ms;
+    public float ms = 200;
     GameObject player = null;
 
     public float windupTime = 5;
@@ -26,16 +26,16 @@ public class HammerMan : MonoBehaviour
     void Update()
     {
         timeNow = Time.time;
+        transform.LookAt(player.transform);
 
-        if(windupTime > Mathf.Abs(timeStart - timeNow)) { return; }
+        if (windupTime > Mathf.Abs(timeStart - timeNow)) { return; }
 
         float d = Vector3.Distance(transform.position, player.transform.position);
         Debug.Log(d);
 
-        if (d > 2.5)
+        if (d > 2.5f)
         {
             //look at player and move towards him
-            transform.LookAt(player.transform.position);
             transform.position += transform.forward * ms * Time.deltaTime;
         }
         else
