@@ -13,16 +13,20 @@ public class PlayerMovement : MonoBehaviour
     public float strafeAcceleration;
     public float sensitivity;
     public float jumpDelay;
+    public float slideSpeedBoost;
+    public float slideSpeedDecrease;
 
     public int maxJumpCount;
-
-    public bool isGrounded;
 
     public AudioSource jumpSound;
 
     float lastJump;
+    float lastSlide;
 
     int jumpCount;
+
+    bool isGrounded;
+    bool isSliding;
 
     [HideInInspector]
     public float currentSpeed;
@@ -80,27 +84,61 @@ public class PlayerMovement : MonoBehaviour
             currentSpeed += Mathf.Abs(Input.GetAxisRaw("Mouse X") * sensitivity * Time.deltaTime * strafeAcceleration);
 
             // SPRINTING
-            if ((currentSpeed < movementSpeed || isGrounded) && Input.GetButton("Sprint"))
+            if ((currentSpeed < movementSpeed || isGrounded) && Input.GetButton("Sprint") && !isSliding)
             {
                 playerCamera.transform.localPosition = new Vector3(0, 1f, 0);
 
                 currentSpeed = Mathf.Lerp(currentSpeed, sprintSpeed, t += Time.deltaTime * acceleration);
+
+                // START SLIDE
+                if (Input.GetButtonDown("Crouch") && isGrounded)
+                {
+                    isSliding = true;
+                    lastSlide = Time.time;
+
+                    currentSpeed += slideSpeedBoost;
+                }
             }
 
             // CROUCHING
-            else if (isGrounded && Input.GetButton("Crouch") && !Input.GetButton("Sprint"))
+            else if (Input.GetButton("Crouch"))
             {
-                playerCamera.transform.localPosition = new Vector3(0, 0.8f, 0);
+                // SLIDING
+                if (isSliding)
+                {       
+                    playerCamera.transform.localPosition = new Vector3(0, 0.5f, 0);
 
-                currentSpeed = Mathf.Lerp(currentSpeed, crouchSpeed, t += Time.deltaTime * acceleration);
+                    if (isGrounded)
+                    {
+                        currentSpeed = Mathf.Max(currentSpeed - slideSpeedDecrease, 0);
+                    }
+                }
+
+                else if (isGrounded)
+                {
+                    playerCamera.transform.localPosition = new Vector3(0, 0.5f, 0);
+
+                    currentSpeed = Mathf.Lerp(currentSpeed, crouchSpeed, t += Time.deltaTime * acceleration);
+                }
+
             }
 
             // WALKING
             else if ((currentSpeed < movementSpeed || isGrounded))
             {
+                isSliding = false;
+
                 playerCamera.transform.localPosition = new Vector3(0, 1f, 0);
 
                 currentSpeed = Mathf.Lerp(currentSpeed, movementSpeed, t += Time.deltaTime * acceleration);
+            }
+
+            // FALLING
+            else 
+            {
+                playerCamera.transform.localPosition = new Vector3(0, 1f, 0);
+
+                isSliding = false;
             }
 
             // MOVEMENT CAP
