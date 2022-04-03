@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using UnityEngine.AI;
 
 public class HammerMan : MonoBehaviour
@@ -26,8 +26,17 @@ public class HammerMan : MonoBehaviour
         timeStart = Time.time;
         player = GameObject.FindGameObjectWithTag("Player");
         aS = player.GetComponent<AudioSource>();
-        agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
+
+        agent = GetComponent<NavMeshAgent>();
+        agent.autoTraverseOffMeshLink = true;
+
+        if(SceneManager.GetActiveScene().name == "scene_main")
+        {
+            NavMeshPath path = new NavMeshPath();
+            agent.CalculatePath(new Vector3(1123, 2, 1000), path);
+            if (path.status == NavMeshPathStatus.PathPartial) { Destroy(gameObject); }
+        }
     }
 
     void Update()

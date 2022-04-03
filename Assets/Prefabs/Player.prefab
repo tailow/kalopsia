@@ -2380,7 +2380,7 @@ MonoBehaviour:
   sprintSpeed: 250
   crouchSpeed: 50
   acceleration: 8
-  jumpHeight: 6
+  jumpHeight: 12
   maxSpeed: 1000
   airStrafeAcceleration: 0
   sensitivity: 5
