@@ -11,8 +11,8 @@ public class HammerMan : MonoBehaviour
     GameObject player = null;
 
     public float windupTime = 5;
-    public float timeStart;
-    public float timeNow;
+    float timeStart;
+    float timeNow;
 
     AudioSource aS;
     [SerializeField] AudioClip[] attacksoundList;
@@ -25,7 +25,6 @@ public class HammerMan : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         aS = player.GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
-
     }
 
     void Update()
