@@ -40,16 +40,16 @@ MonoBehaviour:
   active: 1
   quality:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 3
   spectralLut:
     m_OverrideState: 1
     m_Value: {fileID: 0}
   intensity:
     m_OverrideState: 1
-    m_Value: 0.579
+    m_Value: 1
   m_MaxSamples:
     m_OverrideState: 1
-    m_Value: 6
+    m_Value: 15
 --- !u!114 &-101710859045151595
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -64,22 +64,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   active: 1
   skyType:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 0
   cloudType:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 0
   skyAmbientMode:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 1
   windOrientation:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 0
   windSpeed:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 100
   fogType:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 0
 --- !u!114 &11400000
 MonoBehaviour:
@@ -99,6 +99,23 @@ MonoBehaviour:
   - {fileID: 8604406441095691516}
   - {fileID: -3462536574485100584}
   - {fileID: -101710859045151595}
+  - {fileID: 231207669594918592}
+--- !u!114 &231207669594918592
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2df26f7a52f4bc64889e85d6e032e84d, type: 3}
+  m_Name: Scanlines
+  m_EditorClassIdentifier: 
+  active: 1
+  intensity:
+    m_OverrideState: 1
+    m_Value: 1
 --- !u!114 &3762064163499956878
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -114,7 +131,7 @@ MonoBehaviour:
   active: 1
   intensity:
     m_OverrideState: 1
-    m_Value: 0.514
+    m_Value: 0.614
   xMultiplier:
     m_OverrideState: 1
     m_Value: 1
