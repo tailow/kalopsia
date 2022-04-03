@@ -643,6 +643,7 @@ GameObject:
   - component: {fileID: 7822012574432951913}
   - component: {fileID: 7822012574432951894}
   - component: {fileID: 7822012574432951895}
+  - component: {fileID: 7344971941471149094}
   m_Layer: 0
   m_Name: Hammer man
   m_TagString: Untagged
@@ -723,6 +724,23 @@ MonoBehaviour:
   - {fileID: 8300000, guid: bdcb3dd94c1b9be4f90de321c13040ac, type: 3}
   - {fileID: 8300000, guid: dffa529e74b196e4bbb6678c71641eb3, type: 3}
   - {fileID: 8300000, guid: 1a94a63be4edf4a42acd023c58707b5c, type: 3}
+--- !u!114 &7344971941471149094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6938981803209885629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e9091f673d2ffc4fac63bd462abfbc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 0
+  baseHealth: 60
+  healthBar: {fileID: 0}
+  hurtSound: []
+  aS: {fileID: 0}
 --- !u!1 &7302650089816722296
 GameObject:
   m_ObjectHideFlags: 0
