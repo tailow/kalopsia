@@ -15,7 +15,7 @@ public class Health : MonoBehaviour
     public Slider healthBar;
 
     [SerializeField] private AudioClip[] hurtSound;
-    [SerializeField] private AudioSource aS;
+    [SerializeField] private AudioSource source;
 
     void Start()
     {
@@ -36,10 +36,11 @@ public class Health : MonoBehaviour
         {
             healthBar.value = health / baseHealth;
         }
-        if (hurtSound.Length > 0)
+
+        if (hurtSound.Length > 0 && gameObject.tag == "Player")
         {
-            aS.clip = (hurtSound[Random.Range(0, hurtSound.Length + 1)]);
-            aS.Play();
+            source.clip = (hurtSound[Random.Range(0, hurtSound.Length + 1)]);
+            source.Play();
         }
 
         if (health <= 0)
@@ -53,13 +54,13 @@ public class Health : MonoBehaviour
         if (gameObject.tag == "Player")
         {
             Scene scene = SceneManager.GetActiveScene();
-            SceneManager.LoadScene(scene.name);
-            Destroy(gameObject);
 
+            SceneManager.LoadScene(scene.name);
         }
         else if(gameObject.tag == "Enemy")
         {
             GameObject.FindGameObjectWithTag("GM").GetComponent<ScoreSystem>().AddScore(5);
+
             Destroy(gameObject.transform.parent.gameObject);
         }
         else
