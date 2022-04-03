@@ -719,6 +719,10 @@ MonoBehaviour:
   windupTime: 5
   timeStart: 0
   timeNow: 0
+  attacksoundList:
+  - {fileID: 8300000, guid: bdcb3dd94c1b9be4f90de321c13040ac, type: 3}
+  - {fileID: 8300000, guid: dffa529e74b196e4bbb6678c71641eb3, type: 3}
+  - {fileID: 8300000, guid: 1a94a63be4edf4a42acd023c58707b5c, type: 3}
 --- !u!1 &7302650089816722296
 GameObject:
   m_ObjectHideFlags: 0

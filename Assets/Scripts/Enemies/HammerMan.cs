@@ -14,10 +14,15 @@ public class HammerMan : MonoBehaviour
     public float timeStart;
     public float timeNow;
 
+    AudioSource aS;
+    [SerializeField] AudioClip[] attacksoundList;
+
     void Start()
     {
         timeStart = Time.time;
         player = GameObject.FindGameObjectWithTag("Player");
+        aS = player.GetComponent<AudioSource>();
+
     }
 
     void Update()
@@ -37,6 +42,14 @@ public class HammerMan : MonoBehaviour
             //look at player and move towards him
             transform.position = Vector3.MoveTowards( p1, p2, ms * Time.deltaTime);
             //transform.position += transform.forward * ms * Time.deltaTime;
+        }
+        else
+        {
+            if (!aS.isPlaying)
+            {
+                aS.clip = attacksoundList[Random.Range(0, attacksoundList.Length)];
+                aS.Play();
+            }
         }
     }
 }
