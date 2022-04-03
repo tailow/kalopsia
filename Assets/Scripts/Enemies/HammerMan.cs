@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.AI;
 
 public class HammerMan : MonoBehaviour
 {
@@ -18,12 +19,14 @@ public class HammerMan : MonoBehaviour
     [SerializeField] AudioClip[] attacksoundList;
 
     Animator animator;
+    NavMeshAgent agent;
 
     void Start()
     {
         timeStart = Time.time;
         player = GameObject.FindGameObjectWithTag("Player");
         aS = player.GetComponent<AudioSource>();
+        agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
     }
 
@@ -45,7 +48,8 @@ public class HammerMan : MonoBehaviour
         if (d > 2.5f)
         {
             //look at player and move towards him
-            transform.position = Vector3.MoveTowards( p1, p2, ms * Time.deltaTime);
+            agent.destination = p2;
+            //transform.position = Vector3.MoveTowards( p1, p2, ms * Time.deltaTime);
             //transform.position += transform.forward * ms * Time.deltaTime;
         }
         else
