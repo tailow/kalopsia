@@ -117,6 +117,13 @@ public class TriangleCaster : MonoBehaviour
         lineRenderer.SetPosition(0, Vector3.zero);
 
         lineRenderer.enabled = false;
+
+        triangle.GetComponent<MeshCollider>().sharedMesh = null;
+        triangle.GetComponent<MeshCollider>().isTrigger = false;
+        triangle.GetComponent<MeshCollider>().convex = false;
+
+        triangle.GetComponent<TriangleCollision>().ClearList();
+
         triangle.SetActive(false);
 
         pointIndex = 0;

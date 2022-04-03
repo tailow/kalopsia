@@ -12,9 +12,7 @@ public class TriangleCollision : MonoBehaviour
             if (colliders[i].gameObject.tag == "Enemy")
             {
                 colliders[i].gameObject.GetComponent<Health>().TakeDamage(50);
-                colliders.Remove(colliders[i]);
             }
-            Debug.Log(colliders[i].gameObject.name);
         }
     }
 
@@ -24,5 +22,10 @@ public class TriangleCollision : MonoBehaviour
 
     void OnTriggerExit(Collider other) {
         colliders.Remove(other);
+    }
+
+    public void ClearList()
+    {
+        colliders.Clear();
     }
 }
