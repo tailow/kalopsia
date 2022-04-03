@@ -492,6 +492,7 @@ GameObject:
   - component: {fileID: 6379779365542083128}
   - component: {fileID: 809330963823500184}
   - component: {fileID: 7822012574033362010}
+  - component: {fileID: 4388511310774310921}
   m_Layer: 0
   m_Name: Mesh
   m_TagString: Untagged
@@ -599,6 +600,22 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -5523277661179574252, guid: 8ab97ba948ceaee42880eaddc65b993b, type: 3}
+--- !u!54 &4388511310774310921
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6879258198233768149}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &6884965027479968999
 GameObject:
   m_ObjectHideFlags: 0
@@ -640,7 +657,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7712387437016243463}
-  - component: {fileID: 7822012574432951913}
   - component: {fileID: 7822012574432951894}
   - component: {fileID: 7822012574432951895}
   - component: {fileID: 7344971941471149094}
@@ -668,22 +684,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
---- !u!54 &7822012574432951913
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6938981803209885629}
-  serializedVersion: 2
-  m_Mass: 1000
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!95 &7822012574432951894
 Animator:
   serializedVersion: 4

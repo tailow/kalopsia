@@ -17,22 +17,28 @@ public class HammerMan : MonoBehaviour
     AudioSource aS;
     [SerializeField] AudioClip[] attacksoundList;
 
+    Animator animator;
+
     void Start()
     {
         timeStart = Time.time;
         player = GameObject.FindGameObjectWithTag("Player");
         aS = player.GetComponent<AudioSource>();
+        animator = GetComponent<Animator>();
 
     }
 
     void Update()
     {
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("helikopter")) { return; }
+
         Vector3 p1 = transform.position, p2 = player.transform.position;
 
         timeNow = Time.time;
         transform.LookAt(p2, Vector3.up);
 
         if (windupTime > Mathf.Abs(timeStart - timeNow)) { return; }
+        
 
         float d = Vector3.Distance(p1, p2);
         //Debug.Log(d);
@@ -50,6 +56,7 @@ public class HammerMan : MonoBehaviour
                 aS.clip = attacksoundList[Random.Range(0, attacksoundList.Length)];
                 aS.Play();
             }
+            animator.Play("helikopter");
         }
     }
 }
