@@ -30,7 +30,7 @@ public class HammerMan : MonoBehaviour
         if (windupTime > Mathf.Abs(timeStart - timeNow)) { return; }
 
         float d = Vector3.Distance(p1, p2);
-        Debug.Log(d);
+        //Debug.Log(d);
 
         if (d > 2.5f)
         {
