@@ -27,6 +27,7 @@ public class HammerMan : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         aS = player.GetComponent<AudioSource>();
         agent = GetComponent<NavMeshAgent>();
+        agent.autoTraverseOffMeshLink = true;
         animator = GetComponent<Animator>();
     }
 
