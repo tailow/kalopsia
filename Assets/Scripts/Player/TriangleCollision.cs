@@ -14,7 +14,6 @@ public class TriangleCollision : MonoBehaviour
                 colliders[i].gameObject.GetComponent<Health>().TakeDamage(50);
                 colliders.Remove(colliders[i]);
             }
-            Debug.Log(colliders[i].gameObject.name);
         }
     }
 
