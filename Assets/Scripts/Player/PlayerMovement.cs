@@ -20,6 +20,7 @@ public class PlayerMovement : MonoBehaviour
     public float coyoteTime;
     public float wallRunTiltAmount;
     public float wallRunTiltSpeed;
+    public float lastWallCooldown;
 
     [HideInInspector]
     public float lastWallContact;
@@ -41,8 +42,10 @@ public class PlayerMovement : MonoBehaviour
     float xRot;
     float wallRunTilt;
     float lastSlideBoost;
+    float lastWallJump;
 
     int jumpsLeft;
+    int wallLayerMask;
 
     bool isGrounded;
     bool isSliding;
@@ -55,7 +58,8 @@ public class PlayerMovement : MonoBehaviour
     Vector3 movement;
     Vector3 wallDir;
 
-    int wallLayerMask;
+    GameObject lastWall;
+    GameObject currentWall;
 
     Camera playerCamera;
 
@@ -103,12 +107,18 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // WALL CHECK
-        if (Physics.Raycast(transform.position, transform.right, 0.8f, wallLayerMask)){
+        RaycastHit hit;
+
+        if (Physics.Raycast(transform.position, transform.right, out hit, 0.8f, wallLayerMask)){
             wallDir = Vector3.right;
 
+            currentWall = hit.collider.gameObject;
+
             lastWallContact = Time.time;
-        } else if (Physics.Raycast(transform.position, -transform.right, 0.8f, wallLayerMask)) {
+        } else if (Physics.Raycast(transform.position, -transform.right, out hit, 0.8f, wallLayerMask)) {
             wallDir = Vector3.left;
+
+            currentWall = hit.collider.gameObject;
 
             lastWallContact = Time.time;
         } else {
@@ -117,18 +127,24 @@ public class PlayerMovement : MonoBehaviour
 
         // WALL RUNNING
         if (Time.time - lastWallContact < coyoteTime && !isGrounded){
-            isWallRunning = true;
 
-            jumpsLeft = extraJumpCount;
+            // CHECK PREVIOUS WALL JUMP
+            if (hit.collider && hit.collider.gameObject != lastWall || Time.time - lastWallJump > lastWallCooldown){
+                isWallRunning = true;
 
-            if (wallDir == Vector3.right){
-                wallRunTilt = Mathf.Lerp(wallRunTilt, wallRunTiltAmount, Time.deltaTime * wallRunTiltSpeed);
-            }
-            else if (wallDir == Vector3.left){
-                wallRunTilt = Mathf.Lerp(wallRunTilt, -wallRunTiltAmount, Time.deltaTime * wallRunTiltSpeed);
+                jumpsLeft = extraJumpCount;
+
+                if (wallDir == Vector3.right){
+                    wallRunTilt = Mathf.Lerp(wallRunTilt, wallRunTiltAmount, Time.deltaTime * wallRunTiltSpeed);
+                }
+                else if (wallDir == Vector3.left){
+                    wallRunTilt = Mathf.Lerp(wallRunTilt, -wallRunTiltAmount, Time.deltaTime * wallRunTiltSpeed);
+                }
             }
         } else {
             wallRunTilt = Mathf.Lerp(wallRunTilt, 0, Time.deltaTime * wallRunTiltSpeed);
+
+            currentWall = null;
 
             isWallRunning = false;
         }
@@ -233,6 +249,11 @@ public class PlayerMovement : MonoBehaviour
             else if (isWallRunning)
             {
                 isWallRunning = false;
+
+                lastWall = currentWall;
+
+                lastWallJump = Time.time;
+                currentWall = null;
 
                 rigid.velocity = Vector3.zero;
                 rigid.AddForce(Vector3.up * jumpHeight, ForceMode.Impulse);
