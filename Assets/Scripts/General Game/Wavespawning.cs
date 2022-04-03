@@ -7,6 +7,7 @@ public class Wavespawning : MonoBehaviour
 
     public GameObject Hammerman;
     GameObject player;
+    AudioSource aS;
 
     float runTime;
     int wave = 1;
@@ -14,6 +15,7 @@ public class Wavespawning : MonoBehaviour
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+        aS = GetComponent<AudioSource>();
     }
 
 
@@ -31,7 +33,9 @@ public class Wavespawning : MonoBehaviour
                 Debug.Log(randomPosition.ToString());
             }
 
+            aS.Play();
             wave += 1;
+
         }
     }
 }
