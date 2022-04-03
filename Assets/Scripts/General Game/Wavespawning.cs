@@ -30,7 +30,6 @@ public class Wavespawning : MonoBehaviour
                 Vector3 randomPosition = player.transform.position + Random.insideUnitSphere * Random.Range(80, 150);
                 randomPosition.y = 3;
                 Instantiate(Hammerman, randomPosition, Quaternion.identity);
-                Debug.Log(randomPosition.ToString());
             }
 
             aS.Play();

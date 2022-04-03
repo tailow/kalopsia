@@ -7,9 +7,14 @@ public class TriangleCollision : MonoBehaviour
     List<Collider> colliders = new List<Collider>();
 
     public void DealDamage(){
-        foreach (Collider collider in colliders)
+        for(int i = 0; i < colliders.Count; i++)
         {
-            Debug.Log(collider.gameObject.name);
+            if (colliders[i].gameObject.tag == "Enemy")
+            {
+                colliders[i].gameObject.GetComponent<Health>().TakeDamage(50);
+                colliders.Remove(colliders[i]);
+            }
+            Debug.Log(colliders[i].gameObject.name);
         }
     }
 

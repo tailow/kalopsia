@@ -493,9 +493,10 @@ GameObject:
   - component: {fileID: 809330963823500184}
   - component: {fileID: 7822012574033362010}
   - component: {fileID: 4388511310774310921}
+  - component: {fileID: 3303820801929851437}
   m_Layer: 0
   m_Name: Mesh
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -593,13 +594,13 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6879258198233768149}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 4a776bb048e534543a5bbd5e1dd78dca, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
   m_Convex: 1
   m_CookingOptions: 30
-  m_Mesh: {fileID: -5523277661179574252, guid: 8ab97ba948ceaee42880eaddc65b993b, type: 3}
+  m_Mesh: {fileID: -5523277661179574252, guid: 2c85c4a7a36428f4ab2d3ae713d5b6fa, type: 3}
 --- !u!54 &4388511310774310921
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -608,14 +609,31 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6879258198233768149}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 20
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!114 &3303820801929851437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6879258198233768149}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e9091f673d2ffc4fac63bd462abfbc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 0
+  baseHealth: 50
+  healthBar: {fileID: 0}
+  hurtSound: []
+  aS: {fileID: 0}
 --- !u!1 &6884965027479968999
 GameObject:
   m_ObjectHideFlags: 0
@@ -659,11 +677,10 @@ GameObject:
   - component: {fileID: 7712387437016243463}
   - component: {fileID: 7822012574432951894}
   - component: {fileID: 7822012574432951895}
-  - component: {fileID: 7344971941471149094}
   - component: {fileID: 1489706531477875877}
   m_Layer: 0
   m_Name: Hammer man
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -723,23 +740,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: bdcb3dd94c1b9be4f90de321c13040ac, type: 3}
   - {fileID: 8300000, guid: dffa529e74b196e4bbb6678c71641eb3, type: 3}
   - {fileID: 8300000, guid: 1a94a63be4edf4a42acd023c58707b5c, type: 3}
---- !u!114 &7344971941471149094
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6938981803209885629}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e9091f673d2ffc4fac63bd462abfbc7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 0
-  baseHealth: 60
-  healthBar: {fileID: 0}
-  hurtSound: []
-  aS: {fileID: 0}
 --- !u!195 &1489706531477875877
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -753,7 +753,7 @@ NavMeshAgent:
   m_Speed: 15
   m_Acceleration: 10
   avoidancePriority: 50
-  m_AngularSpeed: 250
+  m_AngularSpeed: 100
   m_StoppingDistance: 1
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
