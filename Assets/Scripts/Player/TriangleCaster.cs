@@ -84,7 +84,7 @@ public class TriangleCaster : MonoBehaviour
 
                 Mesh colliderMesh = triangleMesh;
 
-                colliderMesh.vertices = new Vector3[] {positions[0], positions[1], positions[2], positions[2] + Vector3.up * 0.001f};
+                colliderMesh.vertices = new Vector3[] {positions[0], positions[1], positions[2], positions[2] + Vector3.up * 0.01f};
 
                 triangle.GetComponent<MeshCollider>().sharedMesh = colliderMesh;
                 triangle.GetComponent<MeshCollider>().convex = true;
