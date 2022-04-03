@@ -24,7 +24,22 @@ ModelImporter:
   - first:
       74: 6400090581418263356
     second: Armature|wiggle.001
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.001
+    second: {fileID: 2100000, guid: 9ca73b6b032edf74f85c1ed82165e142, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.002
+    second: {fileID: 2100000, guid: 9a1a08c77f35d6a488107d545c71e6ce, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.003
+    second: {fileID: 2100000, guid: 07ed50534bdede4478cdc50785f1e523, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

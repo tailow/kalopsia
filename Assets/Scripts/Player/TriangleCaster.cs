@@ -93,7 +93,7 @@ public class TriangleCaster : MonoBehaviour
 
                 lastTriangleTime = Time.time;
 
-                Invoke("DestroyTriangle", 1f);
+                Invoke("DestroyTriangle", 0.5f);
             }
 
             else {
