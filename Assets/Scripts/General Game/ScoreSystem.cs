@@ -18,15 +18,19 @@ public class ScoreSystem : MonoBehaviour
     public event OnVariableChangeDelegate OnVariableChange;
 
     [SerializeField] TMP_Text scoretext;
+    [SerializeField] AudioClip[] scoreAudios;
+    AudioSource aS;
 
     void Start()
     {
+        aS = GetComponent<AudioSource>();
         timeStart = Time.time;
     }
 
     // Update is called once per frame
     void Update()
     {
+        /*
         timeNow = Time.time;
         if(Time.time > nextScoreTime)
         {
@@ -34,6 +38,15 @@ public class ScoreSystem : MonoBehaviour
             score += 1;
             ScoreUpdate();
         }
+        */
+
+
+    }
+
+    public void AddScore(int amount)
+    {
+        score += amount;
+        ScoreUpdate();
     }
 
     void ScoreUpdate()
@@ -48,6 +61,13 @@ public class ScoreSystem : MonoBehaviour
                 s = "0" + s;
             }
         }
+
         scoretext.text = s;
+
+        if (!aS.isPlaying)
+        {
+            aS.clip = scoreAudios[Random.Range(0, scoreAudios.Length)];
+            aS.Play();
+        }
     }
 }
