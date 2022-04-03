@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
     public float sensitivity;
     public float jumpDelay;
     public float slideSpeedBoost;
+    public float slideSpeedBoostCooldown;
     public float slideDeceleration;
     public float FOVChangeSpeed;
     public float coyoteTime;
@@ -39,6 +40,7 @@ public class PlayerMovement : MonoBehaviour
     float currentSpeed;
     float xRot;
     float wallRunTilt;
+    float lastSlideBoost;
 
     int jumpsLeft;
 
@@ -101,11 +103,11 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // WALL CHECK
-        if (Physics.Raycast(transform.position, transform.right, 0.6f, wallLayerMask)){
+        if (Physics.Raycast(transform.position, transform.right, 0.8f, wallLayerMask)){
             wallDir = Vector3.right;
 
             lastWallContact = Time.time;
-        } else if (Physics.Raycast(transform.position, -transform.right, 0.6f, wallLayerMask)) {
+        } else if (Physics.Raycast(transform.position, -transform.right, 0.8f, wallLayerMask)) {
             wallDir = Vector3.left;
 
             lastWallContact = Time.time;
@@ -137,12 +139,17 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetButtonDown("Crouch")) {
 
             // SLIDING
-            if (isSprinting) {
+            if (isSprinting && isGrounded) {
                 isSliding = true;
 
                 lastSlide = Time.time;
 
-                currentSpeed += slideSpeedBoost;
+                if (Time.time - lastSlideBoost > slideSpeedBoostCooldown)
+                {
+                    currentSpeed += slideSpeedBoost;
+
+                    lastSlideBoost = Time.time;
+                }
 
                 desiredSpeed = 0;
                 desiredAcceleration = slideDeceleration;
