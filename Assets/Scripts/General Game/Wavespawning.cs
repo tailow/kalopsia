@@ -28,7 +28,7 @@ public class Wavespawning : MonoBehaviour
             for(int i = 0; i < 2 + (2 * wave); i++)
             {
                 Vector3 randomPosition = player.transform.position + Random.insideUnitSphere * Random.Range(80, 150);
-                if (randomPosition.y < 3) { randomPosition.y = 3; }
+                randomPosition.y = 3;
                 Instantiate(Hammerman, randomPosition, Quaternion.identity);
                 Debug.Log(randomPosition.ToString());
             }
