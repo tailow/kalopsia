@@ -8,6 +8,7 @@ TagManager:
   - Ground
   - Enemy
   - GM
+  - Core
   layers:
   - Default
   - TransparentFX

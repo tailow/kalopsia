@@ -18,14 +18,13 @@ public class Wavespawning : MonoBehaviour
         aS = GetComponent<AudioSource>();
     }
 
-
     void Update()
     {
         runTime += Time.deltaTime;
         
         if (runTime > 10 * wave)
         {
-            for(int i = 0; i < 2 + (2 * wave); i++)
+            for(int i = 0; i < 2 + wave; i++)
             {
                 Vector3 randomPosition = Random.insideUnitSphere * Random.Range(80, 150);
                 randomPosition.y = 3;

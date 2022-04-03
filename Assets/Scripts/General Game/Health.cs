@@ -7,7 +7,6 @@ using UnityEngine.SceneManagement;
 
 public class Health : MonoBehaviour
 {
-    [HideInInspector]
     public int health;
 
     public int baseHealth;
@@ -23,18 +22,17 @@ public class Health : MonoBehaviour
 
         if (healthBar)
         {
-            healthBar.value = health / baseHealth;
+            healthBar.value = (float)health / baseHealth;
         }
     }
 
     public void TakeDamage(int amount)
     {
         health -= amount;
-        print(gameObject.name + " " + health);
 
         if (healthBar)
         {
-            healthBar.value = health / baseHealth;
+            healthBar.value = (float)health / baseHealth;
         }
 
         if (hurtSound.Length > 0 && gameObject.tag == "Player")
