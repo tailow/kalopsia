@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6788037489562499390}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: spine01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,7 +43,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1708890460717714841}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Armature
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -75,7 +75,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8123916849595562475}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: spine02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -107,7 +107,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9144169053117399821}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Bone.002_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -138,7 +138,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9162434213877938659}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Bone.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -170,7 +170,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6126162939443337037}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: head_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -201,7 +201,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6496093431183078340}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: arm03.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -233,7 +233,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3382569453429809503}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: arm03.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -265,7 +265,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1216614579995389474}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: arm03.001_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -296,7 +296,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7199592847067192353}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Bone.004
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -328,7 +328,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8742748166503456405}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: collarbone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -362,7 +362,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5949794378441568067}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: arm02.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -394,7 +394,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 588426940331440565}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: arm02.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -426,7 +426,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1295119662279052135}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -458,7 +458,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7842074926996719540}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: leg.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -494,7 +494,7 @@ GameObject:
   - component: {fileID: 7822012574033362010}
   - component: {fileID: 4388511310774310921}
   - component: {fileID: 3303820801929851437}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Mesh
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -643,7 +643,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7885597513560611785}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: arm01.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -678,7 +678,7 @@ GameObject:
   - component: {fileID: 7822012574432951894}
   - component: {fileID: 7822012574432951895}
   - component: {fileID: 1489706531477875877}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Hammer man
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -771,7 +771,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6165185644308142181}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: arm03.002_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -802,7 +802,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8102941073771217564}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Bone.003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -834,7 +834,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4472840925562957771}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Bone.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -866,7 +866,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8537974908530677508}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: leg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -898,7 +898,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2172419426438791157}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: arm01.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -930,7 +930,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 495014545308257101}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Bone.004_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
