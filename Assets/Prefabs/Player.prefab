@@ -317,6 +317,7 @@ GameObject:
   m_Component:
   - component: {fileID: 806726346}
   - component: {fileID: 806726347}
+  - component: {fileID: 585672305}
   m_Layer: 5
   m_Name: VolumeSlider
   m_TagString: Untagged
@@ -392,13 +393,39 @@ MonoBehaviour:
   m_FillRect: {fileID: 74490105}
   m_HandleRect: {fileID: 1223443400}
   m_Direction: 0
-  m_MinValue: 0
-  m_MaxValue: 1
+  m_MinValue: -60
+  m_MaxValue: 10
   m_WholeNumbers: 0
-  m_Value: 0.5
+  m_Value: -25
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 585672305}
+        m_TargetAssemblyTypeName: SliderScript, Assembly-CSharp
+        m_MethodName: ChangeVolume
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &585672305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 806726345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7beee963e7d4f7f4493dc18ced873b15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mixer: {fileID: 24100000, guid: bd57b540d4a5faf45b7603908332fd2d, type: 2}
+  movement: {fileID: 0}
 --- !u!1 &837008211
 GameObject:
   m_ObjectHideFlags: 0
@@ -1551,6 +1578,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1851498959}
   - component: {fileID: 1851498960}
+  - component: {fileID: 585672304}
   m_Layer: 5
   m_Name: SensitivitySlider
   m_TagString: Untagged
@@ -1627,12 +1655,38 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1617515456}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 1
+  m_MaxValue: 20
   m_WholeNumbers: 0
   m_Value: 0.5
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 585672304}
+        m_TargetAssemblyTypeName: SliderScript, Assembly-CSharp
+        m_MethodName: ChangeSensitivity
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &585672304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1851498958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7beee963e7d4f7f4493dc18ced873b15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mixer: {fileID: 24100000, guid: bd57b540d4a5faf45b7603908332fd2d, type: 2}
+  movement: {fileID: 1708157457584769908}
 --- !u!1 &1859073561
 GameObject:
   m_ObjectHideFlags: 0
@@ -2380,7 +2434,7 @@ MonoBehaviour:
   sprintSpeed: 250
   crouchSpeed: 50
   acceleration: 8
-  jumpHeight: 12
+  jumpHeight: 8
   maxSpeed: 1000
   airStrafeAcceleration: 0
   sensitivity: 5
@@ -2412,6 +2466,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cooldown: 1
   triangleMaterial: {fileID: 2100000, guid: 9b7dd3eb3a1241a4294b071f6ad11677, type: 2}
+  pauseMenu: {fileID: 7853004915547612594}
 --- !u!54 &1708157457584769905
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2549,7 +2604,7 @@ AudioSource:
   m_GameObject: {fileID: 1708157457584769911}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: bd57b540d4a5faf45b7603908332fd2d, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1

@@ -7,6 +7,7 @@ public class TriangleCaster : MonoBehaviour
     public float cooldown;
 
     public Material triangleMaterial;
+    public GameObject pauseMenu;
 
     TriangleCollision triangleCollision;
 
@@ -69,7 +70,7 @@ public class TriangleCaster : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButtonDown(0) && pointIndex < 3 && Time.time - lastTriangleTime > cooldown){
+        if (Input.GetMouseButtonDown(0) && pointIndex < 3 && Time.time - lastTriangleTime > cooldown && !pauseMenu.activeInHierarchy){
             lineRenderer.enabled = true;
 
             pointIndex++;
