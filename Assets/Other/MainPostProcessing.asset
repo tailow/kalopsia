@@ -24,7 +24,7 @@ MonoBehaviour:
     m_Value: {x: 0.5, y: 0.5}
   intensity:
     m_OverrideState: 1
-    m_Value: 0.043
+    m_Value: 0.161
   smoothness:
     m_OverrideState: 1
     m_Value: 1
@@ -123,7 +123,7 @@ MonoBehaviour:
     m_Value: 0
   color:
     m_OverrideState: 1
-    m_Value: {r: 0.23137255, g: 0.039215688, b: 0.039215688, a: 1}
+    m_Value: {r: 0.5, g: 0.14166784, b: 0.13443395, a: 1}
   tint:
     m_OverrideState: 1
     m_Value: {r: 1, g: 1, b: 1, a: 1}
@@ -204,39 +204,10 @@ MonoBehaviour:
   - {fileID: -6603921450945519375}
   - {fileID: -3928565898916521631}
   - {fileID: -8083889244775058967}
-  - {fileID: 1438938514282445072}
   - {fileID: 2001996832295490773}
   - {fileID: 6000824601465906240}
   - {fileID: 7890160970940879020}
   - {fileID: -7413564258175551293}
---- !u!114 &1438938514282445072
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f034cba68ab55e046ae1445a42f18c0e, type: 3}
-  m_Name: IndirectLightingController
-  m_EditorClassIdentifier: 
-  active: 1
-  indirectDiffuseLightingMultiplier:
-    m_OverrideState: 1
-    m_Value: 1
-  indirectDiffuseLightingLayers:
-    m_OverrideState: 1
-    m_Value: 255
-  reflectionLightingMultiplier:
-    m_OverrideState: 0
-    m_Value: 1
-  reflectionLightingLayers:
-    m_OverrideState: 1
-    m_Value: 255
-  reflectionProbeIntensityMultiplier:
-    m_OverrideState: 0
-    m_Value: 1
 --- !u!114 &2001996832295490773
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -304,7 +275,7 @@ MonoBehaviour:
     m_Value: 0
   exposure:
     m_OverrideState: 1
-    m_Value: 2
+    m_Value: 1.5
   multiplier:
     m_OverrideState: 1
     m_Value: 1
