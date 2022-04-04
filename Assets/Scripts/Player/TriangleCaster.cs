@@ -116,6 +116,9 @@ public class TriangleCaster : MonoBehaviour
     void DestroyTriangle(){
         triangle.SendMessage("DealDamage");
 
+        source.clip = triangleAudioClips[3];
+        source.Play();
+
         ResetTriangle();
     }
 
