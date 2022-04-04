@@ -157,6 +157,7 @@ MonoBehaviour:
   cooldown: 0.5
   triangleMaterial: {fileID: 2100000, guid: 9b7dd3eb3a1241a4294b071f6ad11677, type: 2}
   pauseMenu: {fileID: 0}
+  deathScreen: {fileID: 0}
   triangleAudioClips:
   - {fileID: 8300000, guid: 42502562690ee404d9618067da15d991, type: 3}
   - {fileID: 8300000, guid: 717e3f9a04b49e3438527b5142c39906, type: 3}
@@ -178,6 +179,7 @@ MonoBehaviour:
   health: 0
   baseHealth: 100
   healthBar: {fileID: 0}
+  deathScreen: {fileID: 0}
   source: {fileID: 383453999}
 --- !u!54 &1708157457584769905
 Rigidbody:

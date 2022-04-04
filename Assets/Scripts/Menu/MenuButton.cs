@@ -8,6 +8,8 @@ public class MenuButton : MonoBehaviour
     public GameObject pauseMenu;
 
     public void StartGame(){
+        Time.timeScale = 1;
+
         SceneManager.LoadScene("scene_main");
     }
 
