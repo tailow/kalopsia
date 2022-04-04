@@ -55,7 +55,7 @@ public class Health : MonoBehaviour
         }
         else if(gameObject.tag == "Enemy")
         {
-            GameObject.FindGameObjectWithTag("GM").GetComponent<ScoreSystem>().AddScore(5);
+            GameObject.FindGameObjectWithTag("GM").GetComponent<ScoreSystem>().AddScore(25);
 
             Destroy(gameObject.transform.parent.gameObject);
         }
