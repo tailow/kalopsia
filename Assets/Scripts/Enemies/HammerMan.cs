@@ -6,8 +6,6 @@ using UnityEngine.AI;
 
 public class HammerMan : MonoBehaviour
 {
-    // Start is called before the first frame update
-
     public float ms = 200;
     GameObject player = null;
 
@@ -61,7 +59,6 @@ public class HammerMan : MonoBehaviour
         transform.LookAt(new Vector3(targetPosition.x, 2, targetPosition.z), Vector3.up);
 
         if (windupTime > Mathf.Abs(timeStart - timeNow)) { return; }
-        
 
         float d = Vector3.Distance(p1, p2);
         //Debug.Log(d);
@@ -88,6 +85,8 @@ public class HammerMan : MonoBehaviour
     }
 
     void SelectTarget(){
+        targetPosition = player.transform.position;
+
         foreach (Vector3 pos in targets)
         {
             if (Vector3.Distance(transform.position, pos) <= (Vector3.Distance(transform.position, targetPosition))){
