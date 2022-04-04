@@ -1,3 +1,3 @@
-# ludum-dare-50
+# kalopsia
 
 A Ludum Dare 50 entry made with Unity.
