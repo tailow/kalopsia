@@ -169,8 +169,13 @@ public class PlayerMovement : MonoBehaviour
         // CROUCHING
         if (Input.GetButtonDown("Crouch")) {
 
+            // MOVE PLAYER DOWN
+            gameObject.transform.localScale = new Vector3(1, 0.5f, 1);
+            gameObject.transform.Translate(new Vector3(0, -0.5f, 0));
+
             // SLIDING
-            if (isSprinting && isGrounded) {
+            if (isSprinting && isGrounded)
+            {
                 isSliding = true;
 
                 lastSlide = Time.time;
@@ -189,18 +194,6 @@ public class PlayerMovement : MonoBehaviour
                 desiredAcceleration = slideDeceleration;
                 desiredFOV = defaultFOV + slidingFOVIncrease;
             }
-
-            else {
-                isCrouching = true;
-
-                desiredSpeed = crouchSpeed;
-                desiredFOV = defaultFOV;
-                desiredAcceleration = acceleration;
-            }
-
-            // MOVE PLAYER DOWN
-            gameObject.transform.localScale = new Vector3(1, 0.5f, 1);
-            gameObject.transform.Translate(new Vector3(0, -0.5f, 0));
         }
 
         // STOP CROUCHING
@@ -245,8 +238,15 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
 
+            // CROUCHING
+            else if (isCrouching){
+                desiredSpeed = crouchSpeed;
+                desiredFOV = defaultFOV;
+                desiredAcceleration = acceleration;
+            }
+
             // WALKING
-            if (!isSprinting && !isCrouching && !isSliding && (currentSpeed < movementSpeed || isGrounded))
+            else if (!isSprinting && !isCrouching && !isSliding && (currentSpeed < movementSpeed || isGrounded))
             {
                 desiredSpeed = movementSpeed;
                 desiredFOV = defaultFOV;
