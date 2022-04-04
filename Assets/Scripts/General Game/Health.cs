@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-
 public class Health : MonoBehaviour
 {
     public int health;
@@ -12,6 +11,8 @@ public class Health : MonoBehaviour
     public int baseHealth;
 
     public Slider healthBar;
+
+    public GameObject deathScreen;
 
     [SerializeField] private AudioSource source;
 
@@ -49,9 +50,7 @@ public class Health : MonoBehaviour
     {
         if (gameObject.tag == "Player")
         {
-            Scene scene = SceneManager.GetActiveScene();
-
-            SceneManager.LoadScene(scene.name);
+            GameObject.FindGameObjectWithTag("GM").GetComponent<GameManager>().GameOver();
         }
         else if(gameObject.tag == "Enemy")
         {
@@ -69,6 +68,10 @@ public class Health : MonoBehaviour
             }
 
             Destroy(hammerM);
+        }
+        else if (gameObject.tag == "Core")
+        {
+            GameObject.FindGameObjectWithTag("GM").GetComponent<GameManager>().GameOver();
         }
         else
         {

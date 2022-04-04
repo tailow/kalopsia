@@ -8,6 +8,7 @@ public class TriangleCaster : MonoBehaviour
 
     public Material triangleMaterial;
     public GameObject pauseMenu;
+    public GameObject deathScreen;
 
     TriangleCollision triangleCollision;
 
@@ -73,7 +74,7 @@ public class TriangleCaster : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButtonDown(0) && pointIndex < 3 && Time.time - lastTriangleTime > cooldown && !pauseMenu.activeInHierarchy){
+        if (Input.GetMouseButtonDown(0) && pointIndex < 3 && Time.time - lastTriangleTime > cooldown && !pauseMenu.activeInHierarchy && !deathScreen.activeInHierarchy){
             lineRenderer.enabled = true;
 
             source.clip = triangleAudioClips[pointIndex];
