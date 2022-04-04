@@ -48,6 +48,14 @@ public class GameManager : MonoBehaviour
         int seconds = (int)Time.timeSinceLevelLoad % 60;
 
         deathScreen.SetActive(true);
+        int childcount = deathScreen.transform.parent.transform.childCount;
+        for(int i = 0; i< childcount; i++)
+        {
+            if(!GameObject.ReferenceEquals(deathScreen.transform.parent.transform.GetChild(i).gameObject, deathScreen))
+            {
+                deathScreen.transform.parent.transform.GetChild(i).gameObject.SetActive(false);
+            } 
+        }
 
         deathScreen.transform.Find("TimeText").GetComponent<TMP_Text>().text = "Time alive: " + minutes.ToString() + "m " + seconds.ToString() + "s";
         deathScreen.transform.Find("ScoreText").GetComponent<TMP_Text>().text = "Score: " + GetComponent<ScoreSystem>().score;
