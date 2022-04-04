@@ -37,7 +37,7 @@ public class Health : MonoBehaviour
 
         if (hurtSound.Length > 0 && gameObject.tag == "Player")
         {
-            source.clip = (hurtSound[Random.Range(0, hurtSound.Length + 1)]);
+            source.clip = (hurtSound[Random.Range(0, hurtSound.Length)]);
             source.Play();
         }
 

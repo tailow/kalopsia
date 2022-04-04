@@ -33,6 +33,10 @@ public class PlayerMovement : MonoBehaviour
     public int sprintingFOVIncrease;
     public int slidingFOVIncrease;
 
+    public AudioClip jumpSound;
+    public AudioClip landSound;
+    public AudioClip slideSound;
+
     float desiredSpeed;
     float desiredFOV;
     float desiredAcceleration;
@@ -43,6 +47,7 @@ public class PlayerMovement : MonoBehaviour
     float wallRunTilt;
     float lastSlideBoost;
     float lastWallJump;
+    float lastFootStep;
 
     int jumpsLeft;
     int wallLayerMask;
@@ -61,6 +66,9 @@ public class PlayerMovement : MonoBehaviour
     GameObject lastWall;
     GameObject currentWall;
 
+    public AudioSource mainSource;
+    public AudioSource footStepSource;
+
     Camera playerCamera;
 
     Rigidbody rigid;
@@ -73,7 +81,7 @@ public class PlayerMovement : MonoBehaviour
 
         playerCamera = Camera.main;
 
-        rigid = gameObject.GetComponent<Rigidbody>();
+        rigid = GetComponent<Rigidbody>();
 
         if (PlayerPrefs.GetInt("sensitivity") == 0) {
             sensitivity = 10;
@@ -127,12 +135,19 @@ public class PlayerMovement : MonoBehaviour
 
         // WALL RUNNING
         if (Time.time - lastWallContact < coyoteTime && !isGrounded){
-
+            
             // CHECK PREVIOUS WALL JUMP
             if (hit.collider && hit.collider.gameObject != lastWall || Time.time - lastWallJump > lastWallCooldown){
                 isWallRunning = true;
 
                 jumpsLeft = extraJumpCount;
+
+                if (Time.time - lastFootStep > 0.2f)
+                {
+                    footStepSource.Play();
+
+                    lastFootStep = Time.time;
+                }
 
                 if (wallDir == Vector3.right){
                     wallRunTilt = Mathf.Lerp(wallRunTilt, wallRunTiltAmount, Time.deltaTime * wallRunTiltSpeed);
@@ -159,6 +174,9 @@ public class PlayerMovement : MonoBehaviour
                 isSliding = true;
 
                 lastSlide = Time.time;
+
+                mainSource.clip = slideSound;
+                mainSource.Play();
 
                 if (Time.time - lastSlideBoost > slideSpeedBoostCooldown)
                 {
@@ -217,6 +235,13 @@ public class PlayerMovement : MonoBehaviour
                     desiredSpeed = sprintSpeed;
                     desiredFOV = defaultFOV + sprintingFOVIncrease;
                     desiredAcceleration = acceleration;
+
+                    if (Time.time - lastFootStep > 0.2f && isGrounded)
+                    {
+                        footStepSource.Play();
+
+                        lastFootStep = Time.time;
+                    }
                 }
             }
 
@@ -226,6 +251,13 @@ public class PlayerMovement : MonoBehaviour
                 desiredSpeed = movementSpeed;
                 desiredFOV = defaultFOV;
                 desiredAcceleration = acceleration;
+
+                if (Time.time - lastFootStep > 0.4f && isGrounded)
+                {
+                    footStepSource.Play();
+
+                    lastFootStep = Time.time;
+                }
             }
         }
 
@@ -244,6 +276,9 @@ public class PlayerMovement : MonoBehaviour
 
                 rigid.velocity = Vector3.zero;
                 rigid.AddForce(Vector3.up * jumpHeight, ForceMode.Impulse);
+
+                mainSource.clip = jumpSound;
+                mainSource.Play();
             }
 
             else if (isWallRunning)
@@ -257,6 +292,9 @@ public class PlayerMovement : MonoBehaviour
 
                 rigid.velocity = Vector3.zero;
                 rigid.AddForce(Vector3.up * jumpHeight, ForceMode.Impulse);
+
+                mainSource.clip = jumpSound;
+                mainSource.Play();
             }
 
             else if (jumpsLeft > 0){
@@ -267,6 +305,9 @@ public class PlayerMovement : MonoBehaviour
 
                 rigid.velocity = Vector3.zero;
                 rigid.AddForce(Vector3.up * jumpHeight, ForceMode.Impulse);
+
+                mainSource.clip = jumpSound;
+                mainSource.Play();
             }
 
             lastJump = Time.time;
@@ -284,5 +325,10 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate() {
         rigid.MovePosition(rigid.position + transform.TransformDirection(movement) * Time.deltaTime);
+    }
+
+    public void PlayLandSound(){
+        mainSource.clip = landSound;
+        mainSource.Play();
     }
 }

@@ -16,4 +16,11 @@ public class GroundChecker : MonoBehaviour
             playerMovement.lastGroundContact = Time.time;
         }
     }
+
+    void OnTriggerEnter(Collider coll){
+        if (coll.gameObject.CompareTag("Wall") || coll.gameObject.CompareTag("Ground"))
+        {
+            playerMovement.PlayLandSound();
+        }
+    }
 }
