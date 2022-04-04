@@ -633,7 +633,7 @@ MonoBehaviour:
   baseHealth: 50
   healthBar: {fileID: 0}
   hurtSound: []
-  aS: {fileID: 0}
+  source: {fileID: 0}
 --- !u!1 &6884965027479968999
 GameObject:
   m_ObjectHideFlags: 0
@@ -736,6 +736,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ms: 10
   windupTime: 5
+  attackRange: 3
+  attackCooldown: 5
   attacksoundList:
   - {fileID: 8300000, guid: bdcb3dd94c1b9be4f90de321c13040ac, type: 3}
   - {fileID: 8300000, guid: dffa529e74b196e4bbb6678c71641eb3, type: 3}

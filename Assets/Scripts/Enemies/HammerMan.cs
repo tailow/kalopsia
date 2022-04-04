@@ -16,8 +16,14 @@ public class HammerMan : MonoBehaviour
     Vector3[] targets;
 
     public float windupTime = 5;
+    public float attackRange;
+    public float attackCooldown;
+    public float damage;
+
     float timeStart;
     float timeNow;
+
+    float lastAttack = -1000;
 
     AudioSource aS;
     [SerializeField] AudioClip[] attacksoundList;
@@ -37,12 +43,12 @@ public class HammerMan : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         agent.autoTraverseOffMeshLink = true;
 
-        targets = new Vector3[] {player.transform.position, new Vector3(7, 2, 7), new Vector3(7, 2, -7), new Vector3(-7, 2, 7), new Vector3(-7, 2, -7)};
+        targets = new Vector3[] {player.transform.position, new Vector3(8, 2.5f, 8), new Vector3(8, 2.5f, -8), new Vector3(-8, 2.5f, 8), new Vector3(-8, 2.5f, -8)};
 
         if(SceneManager.GetActiveScene().name == "scene_main")
         {
             NavMeshPath path = new NavMeshPath();
-            agent.CalculatePath(new Vector3(1123, 2, 1000), path);
+            agent.CalculatePath(new Vector3(10, 2, 10), path);
             if (path.status == NavMeshPathStatus.PathPartial) { Destroy(gameObject); }
         }
     }
@@ -60,27 +66,38 @@ public class HammerMan : MonoBehaviour
 
         if (windupTime > Mathf.Abs(timeStart - timeNow)) { return; }
 
-        float d = Vector3.Distance(p1, p2);
-        //Debug.Log(d);
-
-        if (d > 2.5f)
+        if (Vector3.Distance(transform.position, targetPosition) > attackRange)
         {
-            //look at player and move towards him
             SelectTarget();
-            //transform.position = Vector3.MoveTowards( p1, p2, ms * Time.deltaTime);
-            //transform.position += transform.forward * ms * Time.deltaTime;
         }
-        else
+        else if (Time.time - lastAttack > attackCooldown)
         {
-            if (!aS.isPlaying)
-            {
-                aS.clip = attacksoundList[Random.Range(0, attacksoundList.Length)];
-                aS.Play();
-                
-                //player.GetComponent<Health>().TakeDamage(25);
-            }
-            animator.Play("helikopter");
+            // Attack
+            Collider[] colliders = Physics.OverlapSphere(transform.position, attackRange);
 
+            foreach (Collider coll in colliders)
+            {
+                if (coll.CompareTag("Player")){
+                    if (!aS.isPlaying)
+                    {
+                        aS.clip = attacksoundList[Random.Range(0, attacksoundList.Length)];
+                        aS.Play();
+                    }
+
+                    coll.gameObject.GetComponent<Health>().TakeDamage(damage);
+
+                    animator.Play("helikopter");
+
+                    lastAttack = Time.time;
+                }
+                else if (coll.CompareTag("Core")){
+                    coll.gameObject.GetComponent<Health>().TakeDamage(damage);
+
+                    animator.Play("helikopter");
+
+                    lastAttack = Time.time;
+                }
+            }
         }
     }
 
