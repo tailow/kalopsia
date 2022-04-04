@@ -6,6 +6,7 @@ using UnityEngine.AI;
 
 public class HammerMan : MonoBehaviour
 {
+    bool playerOnly = false;
     public float ms = 200;
     GameObject player = null;
 
@@ -55,6 +56,8 @@ public class HammerMan : MonoBehaviour
         else {
             Destroy(gameObject);
         }
+
+        SelectTarget();
     }
 
     void Update()
@@ -70,10 +73,9 @@ public class HammerMan : MonoBehaviour
 
         if (windupTime > Mathf.Abs(timeStart - timeNow)) { return; }
 
-        if (Vector3.Distance(transform.position, targetPosition) > attackRange)
-        {
-            SelectTarget();
-        }
+
+        if(Vector3.Distance(transform.position, targetPosition) > attackRange && !playerOnly) { SelectTarget(); }
+        else if (Vector3.Distance(transform.position, targetPosition) > attackRange && playerOnly){ agent.SetDestination(player.transform.position); }
         else if (Time.time - lastAttack > attackCooldown)
         {
             // Attack
@@ -104,6 +106,22 @@ public class HammerMan : MonoBehaviour
             }
         }
     }
+
+    public void GetAngry()
+    {
+        animator.enabled = false;
+        animator.enabled = true;
+        animator.Play("wiggle");
+        Invoke("TargetPlayerOnly", 2);
+    }
+
+    void TargetPlayerOnly()
+    {
+        Debug.Log("Player only mode");
+        playerOnly = true;
+        agent.SetDestination(player.transform.position);
+    }
+
 
     void SelectTarget(){
         targetPosition = player.transform.position;

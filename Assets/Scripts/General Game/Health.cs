@@ -54,9 +54,20 @@ public class Health : MonoBehaviour
         }
         else if(gameObject.tag == "Enemy")
         {
-            GameObject.FindGameObjectWithTag("GM").GetComponent<ScoreSystem>().AddScore(5);
+            GameObject hammerM = gameObject.transform.parent.gameObject;
+            GameObject.FindGameObjectWithTag("GM").GetComponent<ScoreSystem>().AddScore(25);
 
-            Destroy(gameObject.transform.parent.gameObject);
+            Collider[] hitColliders = Physics.OverlapSphere(hammerM.transform.position, 5);
+
+            foreach (Collider col in hitColliders)
+            {
+                if (col.tag == "Enemy")
+                {
+                    col.transform.parent.gameObject.GetComponent<HammerMan>().GetAngry();
+                }
+            }
+
+            Destroy(hammerM);
         }
         else if (gameObject.tag == "Core")
         {
