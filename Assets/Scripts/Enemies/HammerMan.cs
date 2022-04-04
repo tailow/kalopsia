@@ -115,7 +115,7 @@ public class HammerMan : MonoBehaviour
 
         foreach (Vector3 pos in targets)
         {
-            if (Vector3.Distance(transform.position, pos) <= (Vector3.Distance(transform.position, targetPosition))){
+            if (Vector3.Distance(transform.position, pos) < Vector3.Distance(transform.position, targetPosition)){
                 targetPosition = pos;
             }   
         }

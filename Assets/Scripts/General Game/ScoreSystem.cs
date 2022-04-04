@@ -6,13 +6,9 @@ using TMPro;
 
 public class ScoreSystem : MonoBehaviour
 {
-    
     float timeStart;
-    float timeNow;
 
-    float nextScoreTime = 5;
     public int score = 0;
-    float cooldown = 5;
 
     public delegate void OnVariableChangeDelegate(int newVal);
     public event OnVariableChangeDelegate OnVariableChange;
@@ -25,22 +21,6 @@ public class ScoreSystem : MonoBehaviour
     {
         aS = GetComponent<AudioSource>();
         timeStart = Time.time;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        /*
-        timeNow = Time.time;
-        if(Time.time > nextScoreTime)
-        {
-            nextScoreTime += cooldown;
-            score += 1;
-            ScoreUpdate();
-        }
-        */
-
-
     }
 
     public void AddScore(int amount)
