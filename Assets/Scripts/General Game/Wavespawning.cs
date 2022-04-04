@@ -26,7 +26,7 @@ public class Wavespawning : MonoBehaviour
     {
         runTime += Time.deltaTime;
         
-        if (runTime > 16 * wave){ spawnWave(); }
+        if (runTime > 12 * wave){ spawnWave(); }
     }
 
     void spawnWave()
