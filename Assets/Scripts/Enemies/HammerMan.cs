@@ -117,7 +117,6 @@ public class HammerMan : MonoBehaviour
 
     void TargetPlayerOnly()
     {
-        Debug.Log("Player only mode");
         playerOnly = true;
         agent.SetDestination(player.transform.position);
     }

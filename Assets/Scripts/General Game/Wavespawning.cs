@@ -22,9 +22,9 @@ public class Wavespawning : MonoBehaviour
     {
         runTime += Time.deltaTime;
         
-        if (runTime > 10 * wave)
+        if (runTime > 16 * wave)
         {
-            for(int i = 0; i < 2 + wave * 2; i++)
+            for(int i = 0; i < 4 + wave * 2; i++)
             {
                 Vector3 randomPosition = Random.insideUnitSphere * Random.Range(80, 150);
                 randomPosition.y = 3;
