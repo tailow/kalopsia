@@ -33,10 +33,6 @@ public class PlayerMovement : MonoBehaviour
     public int sprintingFOVIncrease;
     public int slidingFOVIncrease;
 
-    public AudioClip jumpSound;
-    public AudioClip landSound;
-    public AudioClip slideSound;
-
     float desiredSpeed;
     float desiredFOV;
     float desiredAcceleration;
@@ -66,8 +62,10 @@ public class PlayerMovement : MonoBehaviour
     GameObject lastWall;
     GameObject currentWall;
 
-    public AudioSource mainSource;
     public AudioSource footStepSource;
+    public AudioSource slideSource;
+    public AudioSource jumpSource;
+    public AudioSource landSource;
 
     Camera playerCamera;
 
@@ -180,8 +178,7 @@ public class PlayerMovement : MonoBehaviour
 
                 lastSlide = Time.time;
 
-                mainSource.clip = slideSound;
-                mainSource.Play();
+                slideSource.Play();
 
                 if (Time.time - lastSlideBoost > slideSpeedBoostCooldown)
                 {
@@ -277,8 +274,7 @@ public class PlayerMovement : MonoBehaviour
                 rigid.velocity = Vector3.zero;
                 rigid.AddForce(Vector3.up * jumpHeight, ForceMode.Impulse);
 
-                mainSource.clip = jumpSound;
-                mainSource.Play();
+                jumpSource.Play();
             }
 
             else if (isWallRunning)
@@ -293,8 +289,7 @@ public class PlayerMovement : MonoBehaviour
                 rigid.velocity = Vector3.zero;
                 rigid.AddForce(Vector3.up * jumpHeight, ForceMode.Impulse);
 
-                mainSource.clip = jumpSound;
-                mainSource.Play();
+                jumpSource.Play();
             }
 
             else if (jumpsLeft > 0){
@@ -306,8 +301,7 @@ public class PlayerMovement : MonoBehaviour
                 rigid.velocity = Vector3.zero;
                 rigid.AddForce(Vector3.up * jumpHeight, ForceMode.Impulse);
 
-                mainSource.clip = jumpSound;
-                mainSource.Play();
+                jumpSource.Play();
             }
 
             lastJump = Time.time;
@@ -328,7 +322,6 @@ public class PlayerMovement : MonoBehaviour
     }
 
     public void PlayLandSound(){
-        mainSource.clip = landSound;
-        mainSource.Play();
+        landSource.Play();
     }
 }

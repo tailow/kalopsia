@@ -18,7 +18,7 @@ public class TriangleCaster : MonoBehaviour
     Vector3[] positions;
 
     public AudioClip[] triangleAudioClips;
-    AudioSource source;
+    public AudioSource source;
 
     int layerMask;
     int pointIndex;
@@ -31,7 +31,6 @@ public class TriangleCaster : MonoBehaviour
         positions = new Vector3[3];
 
         lineRenderer = GetComponent<LineRenderer>();
-        source = GetComponent<AudioSource>();
 
         triangle = new GameObject("Triangle");
 
