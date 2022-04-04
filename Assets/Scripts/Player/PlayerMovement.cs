@@ -81,13 +81,7 @@ public class PlayerMovement : MonoBehaviour
 
         rigid = GetComponent<Rigidbody>();
 
-        if (PlayerPrefs.GetInt("sensitivity") == 0) {
-            sensitivity = 10;
-        }
-
-        else {
-            sensitivity = PlayerPrefs.GetInt("sensitivity");
-        }
+        sensitivity = PlayerPrefs.GetInt("sensitivity");
     }
 
     void Update()

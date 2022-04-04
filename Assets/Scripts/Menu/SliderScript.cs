@@ -11,9 +11,19 @@ public class SliderScript : MonoBehaviour
     public PlayerMovement movement;
 
     void Start(){
+        if (PlayerPrefs.GetFloat("audioVolume") == 0f){
+            PlayerPrefs.SetFloat("audioVolume", -10f);
+        }
+
+        if (PlayerPrefs.GetFloat("sensitivity") == 0f){
+            PlayerPrefs.SetFloat("sensitivity", 10f);
+        }
+
         if (gameObject.name == "VolumeSlider")
         {
             GetComponent<Slider>().SetValueWithoutNotify(PlayerPrefs.GetFloat("audioVolume"));
+
+            mixer.SetFloat("audioVolume", GetComponent<Slider>().value);
         }
         else if (gameObject.name == "SensitivitySlider")
         {
