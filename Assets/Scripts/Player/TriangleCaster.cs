@@ -17,6 +17,9 @@ public class TriangleCaster : MonoBehaviour
     Mesh triangleMesh;
     Vector3[] positions;
 
+    public AudioClip[] triangleAudioClips;
+    AudioSource source;
+
     int layerMask;
     int pointIndex;
 
@@ -28,6 +31,7 @@ public class TriangleCaster : MonoBehaviour
         positions = new Vector3[3];
 
         lineRenderer = GetComponent<LineRenderer>();
+        source = GetComponent<AudioSource>();
 
         triangle = new GameObject("Triangle");
 
@@ -72,6 +76,9 @@ public class TriangleCaster : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0) && pointIndex < 3 && Time.time - lastTriangleTime > cooldown && !pauseMenu.activeInHierarchy){
             lineRenderer.enabled = true;
+
+            source.clip = triangleAudioClips[pointIndex];
+            source.Play();
 
             pointIndex++;
 
