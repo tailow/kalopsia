@@ -36,7 +36,7 @@ public class HammerMan : MonoBehaviour
         timeStart = Time.time;
         player = GameObject.FindGameObjectWithTag("Player");
 
-        aS = player.GetComponent<AudioSource>();
+        aS = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
 
         agent = GetComponent<NavMeshAgent>();
