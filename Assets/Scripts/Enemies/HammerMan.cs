@@ -132,6 +132,9 @@ public class HammerMan : MonoBehaviour
             }   
         }
 
-        agent.SetDestination(targetPosition);
+        if (agent.isOnNavMesh && agent.isActiveAndEnabled)
+        {
+            agent.SetDestination(targetPosition);
+        }
     }
 }
