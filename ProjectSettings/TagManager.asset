@@ -9,6 +9,7 @@ TagManager:
   - Enemy
   - GM
   - Core
+  - SpawnPoint
   layers:
   - Default
   - TransparentFX
