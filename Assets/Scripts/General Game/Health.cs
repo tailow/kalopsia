@@ -13,7 +13,6 @@ public class Health : MonoBehaviour
 
     public Slider healthBar;
 
-    [SerializeField] private AudioClip[] hurtSound;
     [SerializeField] private AudioSource source;
 
     void Start()
@@ -35,9 +34,8 @@ public class Health : MonoBehaviour
             healthBar.value = (float)health / baseHealth;
         }
 
-        if (hurtSound.Length > 0 && gameObject.tag == "Player")
+        if (source)
         {
-            source.clip = (hurtSound[Random.Range(0, hurtSound.Length)]);
             source.Play();
         }
 
