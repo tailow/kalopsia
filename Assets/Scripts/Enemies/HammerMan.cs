@@ -18,7 +18,8 @@ public class HammerMan : MonoBehaviour
     public float windupTime = 5;
     public float attackRange;
     public float attackCooldown;
-    public float damage;
+
+    public int damage;
 
     float timeStart;
     float timeNow;
@@ -45,11 +46,14 @@ public class HammerMan : MonoBehaviour
 
         targets = new Vector3[] {player.transform.position, new Vector3(8, 2.5f, 8), new Vector3(8, 2.5f, -8), new Vector3(-8, 2.5f, 8), new Vector3(-8, 2.5f, -8)};
 
-        if(SceneManager.GetActiveScene().name == "scene_main")
+        if(SceneManager.GetActiveScene().name == "scene_main" && agent.isOnNavMesh)
         {
             NavMeshPath path = new NavMeshPath();
             agent.CalculatePath(new Vector3(10, 2, 10), path);
             if (path.status == NavMeshPathStatus.PathPartial) { Destroy(gameObject); }
+        }
+        else {
+            Destroy(gameObject);
         }
     }
 

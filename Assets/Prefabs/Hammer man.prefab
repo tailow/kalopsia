@@ -738,6 +738,7 @@ MonoBehaviour:
   windupTime: 5
   attackRange: 3
   attackCooldown: 5
+  damage: 20
   attacksoundList:
   - {fileID: 8300000, guid: bdcb3dd94c1b9be4f90de321c13040ac, type: 3}
   - {fileID: 8300000, guid: dffa529e74b196e4bbb6678c71641eb3, type: 3}
