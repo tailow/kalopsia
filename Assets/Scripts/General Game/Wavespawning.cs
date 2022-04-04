@@ -16,24 +16,26 @@ public class Wavespawning : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player");
         aS = GetComponent<AudioSource>();
+        Invoke("spawnWave", 2);
     }
 
     void Update()
     {
         runTime += Time.deltaTime;
         
-        if (runTime > 16 * wave)
+        if (runTime > 16 * wave){ spawnWave(); }
+    }
+
+    void spawnWave()
+    {
+        for (int i = 0; i < 4 + wave * 2; i++)
         {
-            for(int i = 0; i < 4 + wave * 2; i++)
-            {
-                Vector3 randomPosition = Random.insideUnitSphere * Random.Range(80, 150);
-                randomPosition.y = 3;
-                Instantiate(Hammerman, randomPosition, Quaternion.identity);
-            }
-
-            aS.Play();
-            wave += 1;
-
+            Vector3 randomPosition = Random.insideUnitSphere * Random.Range(40, 70);
+            randomPosition.y = 3;
+            Instantiate(Hammerman, randomPosition, Quaternion.identity);
         }
+
+        aS.Play();
+        wave += 1;
     }
 }

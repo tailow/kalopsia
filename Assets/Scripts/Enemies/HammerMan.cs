@@ -74,12 +74,12 @@ public class HammerMan : MonoBehaviour
         if (windupTime > Mathf.Abs(timeStart - timeNow)) { return; }
 
 
-        if(Vector3.Distance(transform.position, targetPosition) > attackRange && !playerOnly) { SelectTarget(); }
-        else if (Vector3.Distance(transform.position, targetPosition) > attackRange && playerOnly){ agent.SetDestination(player.transform.position); }
+        if(Vector3.Distance(p1, targetPosition) > attackRange && !playerOnly) { SelectTarget(); }
+        else if (Vector3.Distance(p1, targetPosition) > attackRange && playerOnly){ agent.SetDestination(p2); targetPosition = p2; }
         else if (Time.time - lastAttack > attackCooldown)
         {
             // Attack
-            Collider[] colliders = Physics.OverlapSphere(transform.position, attackRange);
+            Collider[] colliders = Physics.OverlapSphere(p1, attackRange);
 
             foreach (Collider coll in colliders)
             {
