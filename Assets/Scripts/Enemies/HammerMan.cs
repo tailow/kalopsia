@@ -10,8 +10,6 @@ public class HammerMan : MonoBehaviour
     public float ms = 200;
     GameObject player = null;
 
-    GameObject core;
-
     Vector3 targetPosition;
 
     Vector3[] targets;
@@ -37,7 +35,6 @@ public class HammerMan : MonoBehaviour
     {
         timeStart = Time.time;
         player = GameObject.FindGameObjectWithTag("Player");
-        core = GameObject.FindGameObjectWithTag("Core");
 
         aS = player.GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
@@ -74,8 +71,7 @@ public class HammerMan : MonoBehaviour
         if (windupTime > Mathf.Abs(timeStart - timeNow)) { return; }
 
 
-        if(Vector3.Distance(p1, targetPosition) > attackRange && !playerOnly) { SelectTarget(); }
-        else if (Vector3.Distance(p1, targetPosition) > attackRange && playerOnly){ agent.SetDestination(p2); targetPosition = p2; }
+        if(Vector3.Distance(p1, targetPosition) > attackRange) { SelectTarget(); }
         else if (Time.time - lastAttack > attackCooldown)
         {
             // Attack
@@ -112,15 +108,7 @@ public class HammerMan : MonoBehaviour
         animator.enabled = false;
         animator.enabled = true;
         animator.Play("wiggle");
-        Invoke("TargetPlayerOnly", 2);
     }
-
-    void TargetPlayerOnly()
-    {
-        playerOnly = true;
-        agent.SetDestination(player.transform.position);
-    }
-
 
     void SelectTarget(){
         targetPosition = player.transform.position;
