@@ -7,6 +7,8 @@ public class MenuButton : MonoBehaviour
 {
     public GameObject pauseMenu;
 
+    public AudioSource selectSource;
+
     public void StartGame(){
         Time.timeScale = 1;
 
@@ -14,18 +16,23 @@ public class MenuButton : MonoBehaviour
     }
 
     public void MainMenu(){
-        SceneManager.LoadScene("scene_menu");
-
         Time.timeScale = 1;
+
+        selectSource.Play();
+
+        SceneManager.LoadScene("scene_menu");
     }
 
     public void Resume(){
         if (pauseMenu){
+        
+            Time.timeScale = 1;
+
+            selectSource.Play();
+
             pauseMenu.SetActive(false);
 
             Cursor.lockState = CursorLockMode.Locked;
-
-            Time.timeScale = 1;
         }
     }
 
